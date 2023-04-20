@@ -19,7 +19,7 @@
 
 #HANDSHAKE
 # COME BACK TO
-    X = 0;
+    X = 0
     while(X == 0)
     keep checking if connection is established
     if (connection established)
@@ -27,7 +27,9 @@
     #break down into pseudo code
 
 #COUNTDOWN
-if (sensor detects handhake) --> countdown == true;
+if (sensor detects handhake and mode is "menu")
+    countdown()
+    game_start()
 
 #Väldigt simpelt exempel
 while true:
@@ -55,40 +57,53 @@ red = Pin(16, Pin.OUT)
 green = Pin(18, Pin.OUT)
 blue = Pin(20, Pin.OUT)
 
-while True:
-  red.value(0) # red
-  green.value(1)
-  blue.value(1)
-  sleep(1)
-  red.value(0) # yellow
-  green.value(0)
-  blue.value(1)
-  sleep(1)
-  red.value(1) # green
-  green.value(0)
-  blue.value(1)
-  sleep(1)
-  for i in range(8):
-      red.value(1) 
-      green.value(1)
-      blue.value(1)
-      sleep(0.1)
-      red.value(1)
-      green.value(0)
-      blue.value(1)
-      sleep(0.1)
+def countdown():
+    while True:
+    red.value(0) # red
+    green.value(1)
+    blue.value(1)
+    sleep(1)
+    red.value(0) # yellow
+    green.value(0)
+    blue.value(1)
+    sleep(1)
+    red.value(1) # green
+    green.value(0)
+    blue.value(1)
+    sleep(1)
+    for i in range(8):
+        red.value(1) 
+        green.value(1)
+        blue.value(1)
+        sleep(0.1)
+        red.value(1)
+        green.value(0)
+        blue.value(1)
+        sleep(0.1)
   
-  sleep(1)
+    sleep(1)
+
   
 #går åt lika många pins men snyggare kanske
 #sekvensen är röd -> gul -> grön sen blinka grön snabbt
 
+
 #MATCHA PAR
-    Lista av handskar
+def couple_start():
+    #Lista av handskar, ska nog etableras tidigare, fylls in efter att connections görs
+    #kan ha hub först i listan. Tar första två och assignar en färg, behöver inte göra
+    #en check för att fler inte ska ha samma färg. Det här blir mer av ett test,
+    #bestämmer manuellt färgen, men ordningen bör bli olika så det spelar ingen roll
+    gloves = [1,2,3,4]
+    glove[0,1] = orange
+    glove[2,3] = blue
+
+    
     bocka av vilka handskar som har vilken färg och därmed matchar
     OBS! Max 2 handskar med samma färg
     Färg ID:ar par som ska kopplas fysiskt
-    Rundan startar, timer räknar ner 
+    Rundan startar, timer räknar ner
+    round_start()
     #break down into pseudo code
     
 
@@ -120,7 +135,13 @@ while True:
     Resetta till skaka hand 
     Skaka hand för att börja om
     
-    
+
+
+def game_start():
+    couple_start():
+    while true():
+        match():
+            
     
     
     
