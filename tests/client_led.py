@@ -15,15 +15,15 @@ wlan.active(True)
 wlan.connect(ssid, password)
 
 print('Connecting to WiFi...', end=' ')
-while not wlan.isconnected() and wlan.status() != network.WLAN.STAT_GOT_IP:
+while not wlan.isconnected() and wlan.status() >= 0:
     pass
 
-print('Connected.')
+print('Done.')
 print(wlan.ifconfig())
 print('')
 
 # open socket
-addr_interface = socket.getaddrinfo(server_address, port)[] # special address object for the socket. Is a 2D array
+addr_interface = socket.getaddrinfo(server_address, port) # special address object for the socket. Is a 2D array
 addr_info = addr_interface[0][-1]
 
 print('Creating socket...', end=' ')
