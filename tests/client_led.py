@@ -2,8 +2,12 @@
 
 import network
 import socket
+import gc
 from machine import Pin
 from wifi_config import ssid, password, port, server_address
+
+gc.collect()
+gc.enable()
 
 # turn of LED
 led = Pin('LED', Pin.OUT)
