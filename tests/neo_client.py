@@ -19,7 +19,8 @@ while not wlan.isconnected() or wlan.status() >= 0:
 # The gateway is the hub's ip address
 client_ip, subnet, gateway, DNS = wlan.ifconfig()
 
-# Send greeting
-# Wait for response
-#  - Check response
-#   - Light LED
+# --- Socket ---
+# Send message
+socket.sendto("test", gateway)
+
+# Light LED
