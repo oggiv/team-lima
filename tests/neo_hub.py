@@ -16,6 +16,9 @@ led = Pin('LED', Pin.OUT)
 led.off()
 
 # --- WiFi ---
+
+print("Initializing WiFi... ", end="")
+
 # WiFi settings
 ssid = 'test_rpi'
 password = '12345678'
@@ -29,7 +32,12 @@ accesspoint.active(True)
 while not accesspoint.active():
     pass
 
+print("Done.")
+
 # --- Socket ---
+
+print("Initializing socket... ", end="")
+
 # Socket settings
 port = 420
 max_clients = 5 # don't know what this does
@@ -39,12 +47,21 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # (address family = IPv
 sock.bind(('', port)) # tuple (self, port)
 sock.listen(max_clients)
 
+print("Done.")
+
 while True:
+    print("Listening for connection... ", end="")
     # Listen for socket connection
     client_socket, address = sock.accept()
+    print("Done.")
+    print("Reading message... ", end="")
     message = client_socket.recv(256)
+    print("Done.")
     client_socket.close()
     
     # Check message and potentially turn on LED
+    print("The received message was: " + message)
     if message == "test":
+        print("Turning on LED... ", end="")
         led.on()
+        print("Done.")
