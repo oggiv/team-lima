@@ -4,10 +4,16 @@
 import gc
 import network
 import socket
+from machine import Pin
 
 # Garbage collect to clear network interface settings
 gc.enable()
 gc.collect()
+
+# --- LED ---
+# Initialize and turn off LED
+led = Pin('LED', Pin.OUT)
+led.off()
 
 # --- WiFi ---
 # WiFi settings
@@ -15,12 +21,12 @@ ssid = 'test_rpi'
 password = '12345678'
 
 # Start WiFi
-ap = network.WLAN(network.AP_IF) # create interface object, ap means access point as in hub or hotspot
-ap.config(essid=ssid, password=password)
-ap.active(True)
+accesspoint = network.WLAN(network.AP_IF) # create interface object, ap means access point as in hub or hotspot
+accesspoint.config(essid=ssid, password=password)
+accesspoint.active(True)
 
 # Wait for network interface to start WiFi
-while not ap.active():
+while not accesspoint.active():
     pass
 
 # --- Socket ---
@@ -33,10 +39,12 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # (address family = IPv
 sock.bind(('', port)) # tuple (self, port)
 sock.listen(max_clients)
 
-# Listen for socket connections
 while True:
-    conn, addr = sock.accept()
+    # Listen for socket connection
+    client_socket, address = sock.accept()
+    message = client_socket.recv(256)
+    client_socket.close()
     
-
-#  - Check for greeting
-#   - Send number
+    # Check message and potentially turn on LED
+    if message == "test":
+        led.on()
