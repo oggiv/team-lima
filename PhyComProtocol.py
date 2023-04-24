@@ -5,8 +5,8 @@ import gc
 gc.collect()
 gc.enable()
 
-freq = 0.1 #Given time between writes/reads, needs to be same on all units
-ID = 0x84 #Unique identification of each glove
+freq = 0.01 #Given time between writes/reads, needs to be same on all units
+ID = 0x8F #Unique identification of each glove
 
 def send(): #Run send operation
     output1 = Pin(4, Pin.OUT, Pin.PULL_DOWN) #Setting up transmission
@@ -132,7 +132,7 @@ def send(): #Run send operation
 def reciever():
     input1 = Pin(4, Pin.IN, Pin.PULL_UP) #Setting up transmission
     inputstream = [] #Input stream is stored in this array
-    ID = [] #Used to extract the bit value
+    ID_Rec = [] #Used to extract the bit value
     
     for i in range(50): #Read 50 bits
         inputstream.append(input1.value())
@@ -185,14 +185,14 @@ def reciever():
             
         read_value = 0 #Variable in which the final numeric value is stored to
         
-        out_bit0 = ID[0] #MSB
-        out_bit1 = ID[1]
-        out_bit2 = ID[2]
-        out_bit3 = ID[3]
-        out_bit4 = ID[4]
-        out_bit5 = ID[5]
-        out_bit6 = ID[6]
-        out_bit7 = ID[7] #LSB
+        out_bit0 = ID_Rec[0] #MSB
+        out_bit1 = ID_Rec[1]
+        out_bit2 = ID_Rec[2]
+        out_bit3 = ID_Rec[3]
+        out_bit4 = ID_Rec[4]
+        out_bit5 = ID_Rec[5]
+        out_bit6 = ID_Rec[6]
+        out_bit7 = ID_Rec[7] #LSB
         
         valid_byte = out_bit0 + out_bit1 + out_bit2 + out_bit3 + out_bit4 + out_bit5 + out_bit6 + out_bit7 #Sum up values
         if valid_byte <= 8: #If read value has no error bits; begin extraction from binary to decimal
@@ -222,3 +222,5 @@ def Recieve(): #Run recieve operation
     while True:
         value = reciever()
         print(value)
+        
+Recieve()
