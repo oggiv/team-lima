@@ -148,7 +148,7 @@ def reciever():
         while flag_decode:
             
             if (bit1 == 1) and (bit2 == 1) and (bit3 == 1) and (bit4 == 0): #If start signal is found
-                ID.append(1) #Add first bit to read value
+                ID_Rec.append(1) #Add first bit to read value
                 
                 for j in range(7): #Read the 7 following bits (14 since theyre encoded as pairs)
                     if inputstream: #If array is not empty (edge case for compilation only)
@@ -161,13 +161,13 @@ def reciever():
                         bit2_1 = inputstream.pop(0) #Extract 1 more bit
                         
                         if (bit1_1 == 1) and (bit2_1 == 0): #If bits are sequentially 1 and 0
-                            ID.append(1) #add 1 as decoded and read bit
+                            ID_Rec.append(1) #add 1 as decoded and read bit
                         elif (bit1_1 == 0) and (bit2_1 == 1): #If bits are sequentially 0 and 1
-                            ID.append(0) #add 0 as decoded and read bit
+                            ID_Rec.append(0) #add 0 as decoded and read bit
                         elif (bit1_1 == 1) and (bit2_1 == 1): #If bits are sequentially 1 and 1
-                            ID.append(9) #add 9 as detected error bit
+                            ID_Rec.append(9) #add 9 as detected error bit
                         elif (bit1_1 == 0) and (bit2_1 == 0): #If bits are sequentially 0 and 0
-                            ID.append(9) #add 9 as detected error bit
+                            ID_Rec.append(9) #add 9 as detected error bit
                     else:
                         print("Error 2")
                         return -1     
