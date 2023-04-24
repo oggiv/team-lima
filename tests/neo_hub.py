@@ -9,7 +9,8 @@ import socket
 gc.enable()
 gc.collect()
 
-# WiFi configuration
+# --- WiFi ---
+# WiFi settings
 ssid = 'test_rpi'
 password = '12345678'
 
@@ -22,9 +23,20 @@ ap.active(True)
 while not ap.active():
     pass
 
+# --- Socket ---
+# Socket settings
+port = 420
+max_clients = 5 # don't know what this does
+
+# Socket configuration
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # (address family = IPv4, socket type = stream (= tcp))
+sock.bind(('', port)) # tuple (self, port)
+sock.listen(max_clients)
+
 # Listen for socket connections
-
-
+while True:
+    conn, addr = sock.accept()
+    
 
 #  - Check for greeting
-# Send number
+#   - Send number
