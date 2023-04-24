@@ -1,6 +1,20 @@
 # neo_client.py
 # WiFi connection and socket test
 
+import gc
+import network
+import socket
+from machine import Pin
+
+# Garbage collect to clear network interface settings
+gc.enable()
+gc.collect()
+
+# --- LED ---
+# Initialize and turn off LED
+led = Pin('LED', Pin.OUT)
+led.off()
+
 # --- WiFi ---
 # WiFi settings
 ssid = 'test_rpi'
@@ -24,3 +38,4 @@ client_ip, subnet, gateway, DNS = wlan.ifconfig()
 socket.sendto("test", gateway)
 
 # Light LED
+led.on()
