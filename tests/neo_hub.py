@@ -18,6 +18,13 @@ ap = network.WLAN(network.AP_IF) # create interface object, ap means access poin
 ap.config(essid=ssid, password=password)
 ap.active(True)
 
+# Wait for network interface to start WiFi
+while not ap.active():
+    pass
+
 # Listen for socket connections
+
+
+
 #  - Check for greeting
 # Send number
