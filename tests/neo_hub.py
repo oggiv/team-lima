@@ -60,7 +60,7 @@ while True:
     client_socket.close()
     
     # Check message and potentially turn on LED
-    print("The received message was: " + message)
+    print("The received message was: %s" % message)
     if message == "test":
         print("Turning on LED... ", end="")
         led.on()

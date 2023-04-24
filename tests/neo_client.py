@@ -16,6 +16,9 @@ led = Pin('LED', Pin.OUT)
 led.off()
 
 # --- WiFi ---
+
+print("Initializing WiFi... ", end="")
+
 # WiFi settings
 ssid = 'test_rpi'
 password = '12345678'
@@ -33,9 +36,18 @@ while not wlan.isconnected() or wlan.status() >= 0:
 # The gateway is the hub's ip address
 client_ip, subnet, gateway, DNS = wlan.ifconfig()
 
+print("Done.")
+print("Client ip is %s and gateway ip is %s" % (client_ip, gateway))
+
 # --- Socket ---
+
+print("Transmitting through socket... ", end="")
+
 # Send message
 socket.sendto("test", gateway)
 
+print("Done.")
+
 # Light LED
+print("Program done. Turning on led.")
 led.on()
