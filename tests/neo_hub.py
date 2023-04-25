@@ -16,7 +16,6 @@ led = Pin('LED', Pin.OUT)
 led.off()
 
 # --- WiFi ---
-
 print("Initializing WiFi... ", end="")
 
 # WiFi settings
@@ -38,7 +37,6 @@ print("Done.")
 print("Client ip is %s and gateway ip is %s" % (client_ip, gateway))
 
 # --- Socket ---
-
 print("Initializing socket... ", end="")
 
 # Socket settings
@@ -52,23 +50,26 @@ sock.listen(max_clients)
 
 print("Done.")
 
+while True:
     
-gc.collect()
+    gc.collect()
 
-print("Listening for connection... ", end="")
-# Listen for socket connection
-client_socket, address = sock.accept()
-print("Done.")
-print("Reading message... ", end="")
-message = client_socket.recv(256)
-print("Done.")
-client_socket.close()
-
-# Check message and potentially turn on LED
-print("The received message was: %s" % message)
-if message == "test":
-    print("Turning on LED... ", end="")
-    led.on()
+    print("Listening for connection... ", end="")
+    # Listen for socket connection
+    client_socket, address = sock.accept()
     print("Done.")
     
-reset()
+    print("Reading message... ", end="")
+    message = client_socket.recv(4)
+    print("Done.")
+
+    client_socket.close()
+
+    print("The received message was: %s" % message)
+    
+    # Check message and potentially turn on LED
+    print("")
+    if message == b"test":
+        print("Turning on LED... ", end="")
+        led.on()
+        print("Done.")
