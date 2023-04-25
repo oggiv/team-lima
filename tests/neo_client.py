@@ -16,7 +16,6 @@ led = Pin('LED', Pin.OUT)
 led.off()
 
 # --- WiFi ---
-
 print("Initializing WiFi... ", end="")
 
 # WiFi settings
@@ -29,7 +28,7 @@ wlan.active(True)
 wlan.connect(ssid, password)
 
 # Wait for WiFi to connect
-while not wlan.isconnected() or wlan.status() >= 0:
+while not wlan.isconnected() and wlan.status() >= 0:
     pass
 
 # Get network information
@@ -40,11 +39,21 @@ print("Done.")
 print("Client ip is %s and gateway ip is %s" % (client_ip, gateway))
 
 # --- Socket ---
-
 print("Transmitting through socket... ", end="")
 
+# Socket settings
+port = 420
+
+# Initialize socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
 # Send message
-socket.sendto("test", gateway)
+try:
+    sock.sendto("test".encode(), (gateway, port))
+except OSError as err:
+    if err.errno == 107: # ENOTCONN error -> socket not connected
+        print("Failed.")
+        print("Socket connection could not be established. Are you connected to a WLAN?")
 
 print("Done.")
 
