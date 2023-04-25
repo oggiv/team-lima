@@ -49,7 +49,7 @@ def lights(colour):
              time.sleep(1)
          
     if (colour == "yellow" or colour == "all"):
-         rgb(255, 255, 0)
+         rgb(255, 50, 0)
          if(colour == "all"):
              time.sleep(1)
          
@@ -59,36 +59,39 @@ def lights(colour):
              time.sleep(1)
          
     if (colour == "cyan" or colour == "all"):
-         rgb(0, 255, 255)
+         rgb(0, 150, 200)
          if(colour == "all"):
              time.sleep(1)
              
     if (colour == "lightshow"):
         
-        for l in range(5):
+        time1 = time.time_ns()
+        while (time.time_ns() - time1 < 4000000000):
+            b = 0.001
             for i in range(255):
                 rgb(255, i, 0)
-                time.sleep(0.001)
+                time.sleep(b)
         
             for j in range(255, 0, -1):
                 rgb(j, 255, 0)
-                time.sleep(0.001)
+                time.sleep(b)
         
             for k in range(255):
                 rgb(0, 255, k)
-                time.sleep(0.001)
+                time.sleep(b)
                 
             for m in range(255, 0, -1):
                 rgb(0, m, 255)
-                time.sleep(0.001)
+                time.sleep(b)
                 
             for n in range(255):
                 rgb(n, 0, 255)
-                time.sleep(0.001)
+                time.sleep(b)
                 
             for o in range(255, 0, -1):
                 rgb(255, 0, o)
-                time.sleep(0.001)       
-        rgb(0, 0, 0)
-        
-lights("lightshow")
+                time.sleep(b)
+
+def playerColour(ID):
+    lights("lightshow")
+    lights(ID)

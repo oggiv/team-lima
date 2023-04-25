@@ -8,7 +8,7 @@ gc.enable()
 freq = 0.001 #Given time between writes/reads, needs to be same on all units
 ID = 0x8F #Unique identification of each glove
 
-def send(): #Run send operation
+def Send(): #Run send operation
     output1 = Pin(4, Pin.OUT, Pin.PULL_DOWN) #Setting up transmission
     tempID = ID
     
@@ -129,7 +129,7 @@ def send(): #Run send operation
             sleep(freq)        #
 ################################
 
-def reciever():
+def Recieve():
     input1 = Pin(4, Pin.IN, Pin.PULL_DOWN) #Setting up transmission
     inputstream = [] #Input stream is stored in this array
     ID_Rec = [] #Used to extract the bit value
@@ -217,10 +217,3 @@ def reciever():
         elif valid_byte > 26: #If read value has 3-8 error bits
             read_value = 666
     return read_value #Return read value or error indication
-
-def Recieve(): #Run recieve operation
-    while True:
-        value = reciever()
-        print(value)
-        
-Recieve()
