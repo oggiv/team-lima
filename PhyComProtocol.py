@@ -5,7 +5,7 @@ import gc
 gc.collect()
 gc.enable()
 
-freq = 0.01 #Given time between writes/reads, needs to be same on all units
+freq = 0.001 #Given time between writes/reads, needs to be same on all units
 ID = 0x8F #Unique identification of each glove
 
 def send(): #Run send operation
@@ -130,14 +130,14 @@ def send(): #Run send operation
 ################################
 
 def reciever():
-    input1 = Pin(4, Pin.IN, Pin.PULL_UP) #Setting up transmission
+    input1 = Pin(4, Pin.IN, Pin.PULL_DOWN) #Setting up transmission
     inputstream = [] #Input stream is stored in this array
     ID_Rec = [] #Used to extract the bit value
     
     for i in range(50): #Read 50 bits
         inputstream.append(input1.value())
         sleep(freq)
-        
+    #print(inputstream)
     if inputstream: #If array is not empty (edge case for compilation only)
         bit1 = inputstream.pop(0) #Extract bit from stream
         bit2 = inputstream.pop(0) #Extract bit from stream
