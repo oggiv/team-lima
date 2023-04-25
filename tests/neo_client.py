@@ -4,7 +4,7 @@
 import gc
 import network
 import socket
-from machine import Pin
+from machine import Pin, reset
 
 # Garbage collect to clear network interface settings
 gc.enable()
@@ -45,18 +45,24 @@ print("Transmitting through socket... ", end="")
 port = 420
 
 # Initialize socket
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock = socket.socket() #socket.AF_INET, socket.SOCK_STREAM
+sock.settimeout(20.0)
 
 # Send message
-try:
-    sock.sendto("test".encode(), (gateway, port))
-except OSError as err:
-    if err.errno == 107: # ENOTCONN error -> socket not connected
-        print("Failed.")
-        print("Socket connection could not be established. Are you connected to a WLAN?")
+#try:
+#sock.sendto("test".encode(), (gateway, port))
+sock.connect(('192.168.4.1', port))
+sock.send(b'test')
+sock.close()
+#except OSError as err:
+#    if err.errno == 107: # ENOTCONN error -> socket not connected
+#        print("Failed.")
+#        print("Socket connection could not be established. Are you connected to a WLAN?")
 
 print("Done.")
 
 # Light LED
 print("Program done. Turning on led.")
 led.on()
+
+reset()

@@ -3,8 +3,8 @@
 
 import gc
 import network
-import socket
-from machine import Pin
+import usocket as socket
+from machine import Pin, reset
 
 # Garbage collect to clear network interface settings
 gc.enable()
@@ -32,7 +32,10 @@ accesspoint.active(True)
 while not accesspoint.active():
     pass
 
+client_ip, subnet, gateway, DNS = accesspoint.ifconfig()
+
 print("Done.")
+print("Client ip is %s and gateway ip is %s" % (client_ip, gateway))
 
 # --- Socket ---
 
@@ -40,28 +43,32 @@ print("Initializing socket... ", end="")
 
 # Socket settings
 port = 420
-max_clients = 5 # don't know what this does
+max_clients = 5000 # don't know what this does
 
 # Socket configuration
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # (address family = IPv4, socket type = stream (= tcp))
-sock.bind(('', port)) # tuple (self, port)
+sock = socket.socket() # (address family = IPv4, socket type = stream (= tcp))
+sock.bind(('0.0.0.0', port)) # tuple (address, port)
 sock.listen(max_clients)
 
 print("Done.")
 
-while True:
-    print("Listening for connection... ", end="")
-    # Listen for socket connection
-    client_socket, address = sock.accept()
-    print("Done.")
-    print("Reading message... ", end="")
-    message = client_socket.recv(256)
-    print("Done.")
-    client_socket.close()
     
-    # Check message and potentially turn on LED
-    print("The received message was: %s" % message)
-    if message == "test":
-        print("Turning on LED... ", end="")
-        led.on()
-        print("Done.")
+gc.collect()
+
+print("Listening for connection... ", end="")
+# Listen for socket connection
+client_socket, address = sock.accept()
+print("Done.")
+print("Reading message... ", end="")
+message = client_socket.recv(256)
+print("Done.")
+client_socket.close()
+
+# Check message and potentially turn on LED
+print("The received message was: %s" % message)
+if message == "test":
+    print("Turning on LED... ", end="")
+    led.on()
+    print("Done.")
+    
+reset()
