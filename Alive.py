@@ -5,26 +5,41 @@ import time
 import random
 import gc
 
-playerStatus(132, "green", 1)
+time_playerout = 10000000000
 
 def playerStatus(ExpectedID, colour, RecFlag):
     if RecFlag == 1:
         playerColour(colour)
         RecPlayerID = 0
         time1 = time.time_ns()
-        while(time.time_ns() - time1 < 10000000000):
+        while(time.time_ns() - time1 < time_playerout):
             lights(colour)
             RecPlayerID = Recieve()
             if RecPlayerID == ExpectedID:
                 lights("white")
+                Send()
+                Send()
                 return True
-            if (RecPlayerID != 0 or RecPlayerID != 333 or RecPlayerID != 666):
+            elif (RecPlayerID != 0 or RecPlayerID != 333 or RecPlayerID != 666):
                 lights("off")
                 RecPlayerID = 0
+        lights("red")
         return False        
     elif RecFlag == 0:
+        RecPlayerID = 0
         playerColour(colour)
         time1 = time.time_ns()
-        while(time.time_ns() - time1 < 10000000000):
+        while(time.time_ns() - time1 < time_playerout):
+            lights(colour)
             Send()
-    
+            RecPlayerID = Recieve()
+            if RecPlayerID == ExpectedID:
+                lights("white")
+                return True
+            elif (RecPlayerID != 0 or RecPlayerID != 333 or RecPlayerID != 666):
+                lights("off")
+                RecPlayerID = 0
+        lights("red")
+        return False
+
+playerStatus(136, "blue", 1)
