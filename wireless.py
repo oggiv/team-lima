@@ -3,6 +3,7 @@
 
 import network
 import socket
+import time
 
 class Connection:
     
@@ -62,7 +63,7 @@ class Hub:
         self._accesspoint.active(True)
         while not self._accesspoint.active():
             pass
-        
+        time.sleep(2)
         self.ip, subnet, self.gateway, DNS = self._accesspoint.ifconfig()
         return (self.ip, subnet, self.gateway, DNS)
         
@@ -119,7 +120,8 @@ class Client:
         self._wlan.connect(ssid, password)
         while not self._wlan.isconnected() and self._wlan.status() >= 0:
             pass
-
+        time.sleep(2)
+        
         # Get network information. The gateway is the hub's ip address.
         self.ip, subnet, self.gateway, DNS = self._wlan.ifconfig()
         if self.ip == '0.0.0.0':
