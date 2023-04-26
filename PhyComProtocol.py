@@ -6,11 +6,10 @@ gc.collect()
 gc.enable()
 
 freq = 0.001 #Given time between writes/reads, needs to be same on all units
-ID = 200 #Unique identification of each glove
 
 def Send(): #Run send operation
     output1 = Pin(4, Pin.OUT, Pin.PULL_DOWN) #Setting up transmission
-    tempID = ID
+    tempID = 200 #Unique identification of each glove
     
 #####################################
 # Extracting bits to binary signals #    
@@ -33,7 +32,7 @@ def Send(): #Run send operation
     tempID = (tempID >> 1)          #
 #####################################
     
-    for i in range(20): #Send signal
+    for i in range(10): #Send signal
         output1.on() 
         sleep(freq * 10) #send 10 high bits
         

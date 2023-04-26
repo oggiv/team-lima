@@ -5,6 +5,9 @@ import time
 import random
 import gc
 
+gc.collect()
+gc.enable()
+
 time_playerout = 20000000000
 
 def playerStatus(ExpectedID, colour, RecFlag):
@@ -20,8 +23,10 @@ def playerStatus(ExpectedID, colour, RecFlag):
                 for i in range(50):
                     Send()
                 return True
-            elif (RecPlayerID != 0 or RecPlayerID != 333 or RecPlayerID != 666):
+            elif (RecPlayerID != 0 and RecPlayerID != 333 and RecPlayerID != 666):
                 lights("off")
+                for i in range(2):
+                    Send()
                 RecPlayerID = 0
         lights("red")
         return False
@@ -41,12 +46,13 @@ def playerStatus(ExpectedID, colour, RecFlag):
                         return True
                     elif (RecPlayerID == 333 or RecPlayerID == 666):
                         RecPlayerID = Recieve()
-                    elif (RecPlayerID != 0 or RecPlayerID != 333 or RecPlayerID != 666):
+                    elif (RecPlayerID != 0 and RecPlayerID != 333 and RecPlayerID != 666):
                         lights("off")
-                        RecPlayerID = 0
+                        time.sleep(0.5)
+                        break
                     else:
-                        RecPlayerID = 0
+                        pass
         lights("red")
         return False
 
-playerStatus(130, "blue", 0)
+playerStatus(150, "yellow", 0)
