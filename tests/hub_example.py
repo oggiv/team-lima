@@ -19,9 +19,10 @@ conn2 = hub.accept_connection()
 
 # send message to client through the connection
 conn1.send('you are connection 1')
-conn2.send('you are connection 1')
+conn2.send('you are connection 2')
 print("conn1: %s" % conn1.receive(1024))
 print("conn2: %s" % conn2.receive(1024))
 
 # close the connection
-conn.close()
+conn1.close()
+conn2.close()
