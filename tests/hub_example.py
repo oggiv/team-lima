@@ -14,13 +14,14 @@ hub.start_wifi('rpi_test', '12345678')
 print(hub.wifi_is_active())
 
 # accept a socket connection from a client and make a connection object for it
-conn = hub.accept_connection()
+conn1 = hub.accept_connection()
+conn2 = hub.accept_connection()
 
 # send message to client through the connection
-conn.send('hello')
-
-# receive a 4 byte (4 character) long message from the client
-print(conn.receive(4))
+conn1.send('you are connection 1')
+conn2.send('you are connection 1')
+print("conn1: %s" % conn1.receive(1024))
+print("conn2: %s" % conn2.receive(1024))
 
 # close the connection
 conn.close()

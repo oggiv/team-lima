@@ -17,10 +17,11 @@ print(client.connected_to_wifi())
 conn = client.get_connection()
 
 # receive a 5 byte (5 character) long message from the hub
-print(conn.receive(5))
+message = conn.receive(2048)
+print(message)
 
 # send message to the hub through the connection
-conn.send('echo')
+conn.send('why did you tell me: %s' % message)
 
 # close the connection
 conn.close()
