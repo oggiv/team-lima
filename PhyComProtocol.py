@@ -33,7 +33,7 @@ def Send(): #Run send operation
     tempID = (tempID >> 1)          #
 #####################################
     
-    while True: #Send signal
+    for i in range(50): #Send signal
         output1.on() 
         sleep(freq * 10) #send 10 high bits
         
@@ -155,7 +155,7 @@ def Recieve():
                         bit1_1 = inputstream.pop(0) #Extract 1 bit
                     else:
                         print("Error 1")
-                        return -1
+                        return 0
                     
                     if inputstream: #If array is not empty (edge case for compilation only)
                         bit2_1 = inputstream.pop(0) #Extract 1 more bit
@@ -170,7 +170,7 @@ def Recieve():
                             ID_Rec.append(9) #add 9 as detected error bit
                     else:
                         print("Error 2")
-                        return -1     
+                        return 0     
                 flag_decode = False #1 byte is extracted --> return
                 
             else: #If start signal was not found, look at next bits of stream
@@ -214,6 +214,8 @@ def Recieve():
                 read_value = read_value + 128
         elif valid_byte <= 26: #If read value has max 2 error bits
             read_value = 333
+            print("Bad read")
         elif valid_byte > 26: #If read value has 3-8 error bits
             read_value = 666
+            print("Bad read")
     return read_value #Return read value or error indication
