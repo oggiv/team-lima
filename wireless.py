@@ -6,8 +6,9 @@ import socket
 
 class Connection:
     
-    def __init__(self, sock):
+    def __init__(self, sock, address):
         self._socket = sock
+        self.address = address
     
     def send(self, message):
         # message = string || integer || float, else -> bruh
@@ -28,7 +29,7 @@ class Connection:
     def close(self):
         # closes connection on this end
         self._socket.close()
-
+    
 class Hub:
     
     def __init__(self):
@@ -83,8 +84,8 @@ class Hub:
         #
         # note to self: hard code port for now
         client_socket, address = self._socket.accept()
-        return Connection(client_socket), address
-    
+        return Connection(client_socket, address)
+
 class Client:
     
     def __init__(self):
@@ -107,11 +108,14 @@ class Client:
 
         # Get network information
         # The gateway is the hub's ip address
-        self.ip, subnet, self.gateway, DNS = wlan.ifconfig()
-        return (self.ip, subnet, self.gateway, DNS)
+        self.ip, subnet, self.gateway, DNS = self._wlan.ifconfig()
+        if self.ip == '0.0.0.0':
+            raise OSError("Could not connect to WiFi. Is the ssid correct?")
+        else:
+            return (self.ip, subnet, self.gateway, DNS)
         
     def connected_to_wifi(self):
-        return self._wlan.is_connected()
+        return self._wlan.isconnected()
     
     def scan(self, ssid):
         # scans for a hub network
@@ -123,7 +127,8 @@ class Client:
                 return True
         return False
     
-    def connect_to_hub(self):
+    def get_connection(self):
         # return -> Connection, socket interface to hub
         self._socket = socket.socket()
         self._socket.connect((self.gateway, 42))
+        return Connection(self._socket, self.gateway)
