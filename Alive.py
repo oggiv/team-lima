@@ -17,8 +17,8 @@ def playerStatus(ExpectedID, colour, RecFlag):
             RecPlayerID = Recieve()
             if RecPlayerID == ExpectedID:
                 lights("white")
-                Send()
-                Send()
+                for i in range(10):
+                    Send()
                 return True
             elif (RecPlayerID != 0 or RecPlayerID != 333 or RecPlayerID != 666):
                 lights("off")
@@ -39,7 +39,9 @@ def playerStatus(ExpectedID, colour, RecFlag):
             elif (RecPlayerID != 0 or RecPlayerID != 333 or RecPlayerID != 666):
                 lights("off")
                 RecPlayerID = 0
+            else:
+                RecPlayerID = 0
         lights("red")
         return False
 
-playerStatus(136, "blue", 1)
+playerStatus(130, "blue", 0)
