@@ -18,7 +18,10 @@ sock.settimeout(20.0)
 #try:
 #sock.sendto(b'test', ('192.168.4.1', port))
 sock.connect(('192.168.4.1', port))
-sock.send(b"this is a long ass message. Why won't this shit work?")
+sock.send(b'1')
+message = client_socket.recv(16)
+print(message)
+sock.send(b'3')
 sock.close()
 #except OSError as err:
 #    if err.errno == 107: # ENOTCONN error -> socket not connected
