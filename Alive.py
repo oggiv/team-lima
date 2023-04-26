@@ -1,5 +1,5 @@
 from machine import Pin, PWM
-from PhyComProtocol import Recieve, Send
+from PhyComProtocol import Recieve, Send, Peek
 from LED import playerColour, lights
 import time
 import random
@@ -17,7 +17,7 @@ def playerStatus(ExpectedID, colour, RecFlag):
             RecPlayerID = Recieve()
             if RecPlayerID == ExpectedID:
                 lights("white")
-                for i in range(10):
+                for i in range(50):
                     Send()
                 return True
             elif (RecPlayerID != 0 or RecPlayerID != 333 or RecPlayerID != 666):
@@ -33,15 +33,19 @@ def playerStatus(ExpectedID, colour, RecFlag):
         while(time.time_ns() - time1 < time_playerout):
             lights(colour)
             Send()
-            RecPlayerID = Recieve()
-            if RecPlayerID == ExpectedID:
-                lights("white")
-                return True
-            elif (RecPlayerID != 0 or RecPlayerID != 333 or RecPlayerID != 666):
-                lights("off")
-                RecPlayerID = 0
-            else:
-                RecPlayerID = 0
+            if Peek() == True:
+                while(time.time_ns() - time1 < time_playerout):
+                    RecPlayerID = Recieve()
+                    if RecPlayerID == ExpectedID:
+                        lights("white")
+                        return True
+                    elif (RecPlayerID == 333 or RecPlayerID == 666):
+                        RecPlayerID = Recieve()
+                    elif (RecPlayerID != 0 or RecPlayerID != 333 or RecPlayerID != 666):
+                        lights("off")
+                        RecPlayerID = 0
+                    else:
+                        RecPlayerID = 0
         lights("red")
         return False
 

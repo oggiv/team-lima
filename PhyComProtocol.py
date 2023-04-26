@@ -33,7 +33,7 @@ def Send(): #Run send operation
     tempID = (tempID >> 1)          #
 #####################################
     
-    for i in range(100): #Send signal
+    for i in range(20): #Send signal
         output1.on() 
         sleep(freq * 10) #send 10 high bits
         
@@ -219,3 +219,19 @@ def Recieve():
             read_value = 666
             print("Bad read")
     return read_value #Return read value or error indication
+
+def Peek():
+    input1 = Pin(4, Pin.IN, Pin.PULL_DOWN) #Setting up transmission
+    inputstream = [] #Input stream is stored in this array
+    ID_Rec = [] #Used to extract the bit value
+    
+    for i in range(10): #Read 10 bits
+        inputstream.append(input1.value())
+        sleep(freq)
+    
+    for i in range(10):
+        if inputstream.pop(0) == 1:
+            return True
+    return False
+       
+    
