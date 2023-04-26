@@ -19,16 +19,31 @@ class Connection:
         # return -> None
         ty = type(message)
         if ty == str or ty == int or ty == float:
-            self._socket.sendall(str(message).encode('UTF-8'))
+            encoded_message = str(message).encode('UTF-8') + b'\r'
+            self._socket.sendall(encoded_message)
         else:
             raise TypeError("must be str, int or float, not %s" % ty)
     
-    def receive(self, bytes):
+    def receive(self, byte_count):
         # reads [bytes] amount of bytes from socket
         # bytes = integer, amount of bytes to receive
         # return -> string
-        message = self._socket.recv(bytes)
-        return message.decode('UTF-8')
+        
+        if byte_count == 0:
+            byte_count = 2000
+        
+        data = b''
+        bytes_read = 0
+        
+        while bytes_read < byte_count:
+            byte = self._socket.recv(1)
+            if byte == b'\r':
+                break
+            else:
+                data += byte
+                bytes_read += 1
+        
+        return data.decode('UTF-8')
     
     def close(self):
         # closes the socket connection
