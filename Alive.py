@@ -5,7 +5,7 @@ import time
 import random
 import gc
 
-time_playerout = 10000000000
+time_playerout = 20000000000
 
 def playerStatus(ExpectedID, colour, RecFlag):
     if RecFlag == 1:
@@ -24,7 +24,8 @@ def playerStatus(ExpectedID, colour, RecFlag):
                 lights("off")
                 RecPlayerID = 0
         lights("red")
-        return False        
+        return False
+    
     elif RecFlag == 0:
         RecPlayerID = 0
         playerColour(colour)
