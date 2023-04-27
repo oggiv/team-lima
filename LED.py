@@ -54,7 +54,7 @@ def lights(colour):
              time.sleep(1)
          
     if (colour == "purple" or colour == "all"):
-         rgb(255, 0, 255)
+         rgb(200, 0, 255)
          if(colour == "all"):
              time.sleep(1)
          
@@ -62,6 +62,16 @@ def lights(colour):
          rgb(0, 150, 200)
          if(colour == "all"):
              time.sleep(1)
+    
+    if (colour == "orange" or colour == "all"):
+        rgb(255, 18, 0)
+        if(colour == "all"):
+            time.sleep(1)
+            
+    if (colour == "pink" or colour == "all"):
+        rgb(255, 10, 80)
+        if(colour == "all"):
+            time.sleep(1)
              
     if (colour == "lightshow"):
         
