@@ -2,6 +2,21 @@
 # how to use the wireless library to run a hub
 import wireless
 import random
+import time
+
+Colours = ["green", "blue", "yellow", "purple", "cyan", "orange", "pink"]
+
+def randomize_list(original_list):
+    # Create a new list with the same elements as the original list
+    randomized_list = original_list[:]
+
+    # Shuffle the elements of the new list using the Fisher-Yates shuffle algorithm
+    for i in range(len(randomized_list) - 1, 0, -1):
+        j = random.randint(0, i)
+        randomized_list[i], randomized_list[j] = randomized_list[j], randomized_list[i]
+
+    # Return the new list with randomized values
+    return randomized_list
 
 # create a hub object
 hub = wireless.Hub()
@@ -27,24 +42,39 @@ print(ID2)
 HAND2 = conn2.receive(100)
 print(HAND2)
 
-colourID = random.randint(1,5)
-if colourID == 1:
-    colour = "green"
-elif colourID == 2:
-    colour = "blue"
-elif colourID == 3:
-    colour = "yellow"
-elif colourID == 4:
-    colour = "purple"
-elif colourID == 5:
-    colour = "cyan"
+randomColour = randomize_list(Colours)
+ClrP1 = randomColour.pop(0)
         
 conn1.send(str(ID2))
-conn1.send(colour)
+conn1.send(ClrP1)
 conn1.send(1)
 conn2.send(str(ID1))
-conn2.send(colour)
+conn2.send(ClrP1)
 conn2.send(0)
+
+time.sleep(10)
+
+if conn1.receive(100) == "True":
+    print("Successful Handshake Conn1")
+if conn2.receive(100) == "True":
+    print("Successful Handshake Conn2")
+
+ClrP2 = randomColour.pop(0)
+ClrP3 = randomColour.pop(0)
+
+conn1.send(str(169))
+conn1.send(ClrP2)
+conn1.send(1)
+conn2.send(str(237))
+conn2.send(ClrP3)
+conn2.send(0)
+
+time.sleep(20)
+
+if conn1.receive(100) == "False":
+    print("Unsuccessful Handshake Conn1")
+if conn2.receive(100) == "False":
+    print("Unsuccessful Handshake Conn2")
 
 # close the connection
 conn1.close()

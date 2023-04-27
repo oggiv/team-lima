@@ -3,6 +3,7 @@
 import wireless
 from Alive import playerStatus
 from PhyComProtocol import ID, Handtype
+import time
 
 # create client object
 client = wireless.Client()
@@ -33,8 +34,10 @@ def Gamecycle(): #Runs one cycle of the game
         conn.send("True")
     elif not successfulHandshake:
         conn.send("False")
-        
-Gamecycle()  
+
+for i in range(2)
+    Gamecycle()
+    time.sleep(10)
 
 # close the connection
 conn.close()
