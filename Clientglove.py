@@ -2,7 +2,7 @@
 # how to use the wireless library to run a client
 import wireless
 from Alive import playerStatus
-from PhyComProtocol import ID
+from PhyComProtocol import ID, Handtype
 
 # create client object
 client = wireless.Client()
@@ -16,13 +16,17 @@ print(client.connected_to_wifi())
 
 # create a socket connection to the hub
 conn = client.get_connection()
+
 conn.send(str(ID()))
 conn.send(Handtype())
 
 def Gamecycle(): #Runs one cycle of the game
-    partnerID = int(conn.recieve(3))
-    colour = conn.recieve(100) 
-    recieverflag = conn.recieve(100) 
+    partnerID = int(conn.receive(100))
+    print(partnerID)
+    colour = conn.receive(100)
+    print(colour)
+    recieverflag = int(conn.receive(100))
+    print(recieverflag)
 
     successfulHandshake = playerStatus(partnerID, colour, recieverflag)
     if successfulHandshake:
@@ -30,8 +34,7 @@ def Gamecycle(): #Runs one cycle of the game
     elif not successfulHandshake:
         conn.send("False")
         
-Gamecycle()
-    
+Gamecycle()  
 
 # close the connection
 conn.close()
