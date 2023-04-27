@@ -159,32 +159,38 @@ while hub.wifi_is_active(): #Run game
         conn4.send(1)
     
     time1 = time.time()
-        while(time.time() - time1 < 30):
-            try:
-                if conn1.receive(256) == "False":
-                    conn1.close()
-                    conn2.close()
-                    conn3.close()
-                    conn4.close()
-                    
-                if conn2.receive(256) == "False":
-                    conn1.close()
-                    conn2.close()
-                    conn3.close()
-                    conn4.close()
-                    
-                if conn3.receive(256) == "False":
-                    conn1.close()
-                    conn2.close()
-                    conn3.close()
-                    conn4.close()
-                    
+    while(time.time() - time1 < 30):
+        try:
+            if conn1.receive(256) == "False":
+                conn1.close()
+                conn2.close()
+                conn3.close()
+                conn4.close()
                 
-                if conn4.receive(256) == "False":
-                    conn1.close()
-                    conn2.close()
-                    conn3.close()
-                    conn4.close()
-                    break
-                else:
-                    break
+            if conn2.receive(256) == "False":
+                conn1.close()
+                conn2.close()
+                conn3.close()
+                conn4.close()
+                
+            if conn3.receive(256) == "False":
+                conn1.close()
+                conn2.close()
+                conn3.close()
+                conn4.close()
+            
+            if conn4.receive(256) == "False":
+                conn1.close()
+                conn2.close()
+                conn3.close()
+                conn4.close()
+                break
+            else:
+                break
+        except OSError:
+            continue
+        
+conn1.close()
+conn2.close()
+conn3.close()
+conn4.close()
