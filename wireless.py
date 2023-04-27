@@ -113,6 +113,7 @@ class Hub:
         # note to self: port is hard coded
         #               timeout is not specified
         client_socket, address = self._socket.accept()
+        client_socket.settimeout(300)
         return Connection(client_socket, address)
 
 class Client:
