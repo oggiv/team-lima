@@ -65,11 +65,13 @@ ClrP3 = randomColour.pop(0)
 conn1.send(str(169))
 conn1.send(ClrP2)
 conn1.send(1)
+print("ins1 sent")
 conn2.send(str(237))
 conn2.send(ClrP3)
 conn2.send(0)
+print("ins2 sent")
 
-time.sleep(20)
+time.sleep(10)
 
 if conn1.receive(100) == "False":
     print("Unsuccessful Handshake Conn1")

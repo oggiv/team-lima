@@ -20,7 +20,7 @@ def playerStatus(ExpectedID, colour, RecFlag):
             RecPlayerID = Recieve()
             if RecPlayerID == ExpectedID:
                 lights("white")
-                for i in range(50):
+                for i in range(5):
                     Send()
                 return True
             elif (RecPlayerID != 0 and RecPlayerID != 333 and RecPlayerID != 666):
