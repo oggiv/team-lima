@@ -54,5 +54,3 @@ def playerStatus(ExpectedID, colour, RecFlag):
                         pass
         lights("red")
         return False
-
-playerStatus(150, "yellow", 0)

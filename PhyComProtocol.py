@@ -5,11 +5,14 @@ import gc
 gc.collect()
 gc.enable()
 
+def ID(): #Unique identification of each glove
+    return 225
+
 freq = 0.001 #Given time between writes/reads, needs to be same on all units
 
 def Send(): #Run send operation
     output1 = Pin(4, Pin.OUT, Pin.PULL_DOWN) #Setting up transmission
-    tempID = 200 #Unique identification of each glove
+    tempID = ID()
     
 #####################################
 # Extracting bits to binary signals #    
