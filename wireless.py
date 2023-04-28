@@ -63,7 +63,7 @@ class Hub:
         self._socket = socket.socket()
         self._socket.bind(('0.0.0.0', 42)) # (address, port)
         self._socket.listen(5000)
-        self._socket.settimeout(12.0)
+        self._socket.settimeout(300.0)
     
     def start_wifi(self, ssid, password):
         # configures and starts wifi access point
@@ -113,7 +113,6 @@ class Hub:
         # note to self: port is hard coded
         #               timeout is not specified
         client_socket, address = self._socket.accept()
-        client_socket.settimeout(300)
         return Connection(client_socket, address)
 
 class Client:
