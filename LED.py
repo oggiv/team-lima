@@ -107,11 +107,11 @@ def lights(colour):
     if (colour == "gameover"):
         b = 0.005
         for x in range(5):
-            rgb(255, 0, 0)
             time.sleep(0.1)
             for i in range(255):
                 rgb(255, i, i)
                 time.sleep(b)
+            rgb(255, 0, 0)
     
     if (colour == "connected"):
         b = 0.005
