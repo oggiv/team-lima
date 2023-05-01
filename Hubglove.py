@@ -54,6 +54,8 @@ for i in range(len(connections)):
 print(ID)
 print(RHands)
 
+decrement = 20000000000
+
 while hub.wifi_is_active():
 
     PairH1 = []
@@ -91,11 +93,13 @@ while hub.wifi_is_active():
                 connections[i].send(str(PairH1[1]))
                 connections[i].send(ClrP1)
                 connections[i].send(1)
+                connections[i].send(decrement)
         for i in range(len(ID)):
             if PairH1[1] == ID[i]:
                 connections[i].send(str(PairH1[0]))
                 connections[i].send(ClrP1)
                 connections[i].send(0)
+                connections[i].send(decrement)
                 
     if len(PairH2) > 0:
         for i in range(len(ID)):
@@ -103,11 +107,13 @@ while hub.wifi_is_active():
                 connections[i].send(str(PairH2[1]))
                 connections[i].send(ClrP2)
                 connections[i].send(1)
+                connections[i].send(decrement)
         for i in range(len(ID)):
             if PairH2[1] == ID[i]:
                 connections[i].send(str(PairH2[0]))
                 connections[i].send(ClrP2)
                 connections[i].send(0)
+                connections[i].send(decrement)
                 
     if len(PairV1) > 0:
         for i in range(len(ID)):
@@ -115,11 +121,13 @@ while hub.wifi_is_active():
                 connections[i].send(str(PairV1[1]))
                 connections[i].send(ClrP3)
                 connections[i].send(1)
+                connections[i].send(decrement)
         for i in range(len(ID)):
             if PairV1[1] == ID[i]:
                 connections[i].send(str(PairV1[0]))
                 connections[i].send(ClrP3)
                 connections[i].send(0)
+                connections[i].send(decrement)
 
     if len(PairV2) > 0:
         for i in range(len(ID)):
@@ -127,13 +135,16 @@ while hub.wifi_is_active():
                 connections[i].send(str(PairV2[1]))
                 connections[i].send(ClrP4)
                 connections[i].send(1)
+                connections[i].send(decrement)
         for i in range(len(ID)):
             if PairV2[1] == ID[i]:
                 connections[i].send(str(PairV2[0]))
                 connections[i].send(ClrP4)
                 connections[i].send(0)
+                connections[i].send(decrement)
 
     flag = True
+    decrement = decrement - 1000000000
 
     for i in range(len(connections)):
         response = connections[i].receive(100)
