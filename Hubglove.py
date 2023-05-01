@@ -3,8 +3,12 @@
 import wireless
 import random
 import time
+from PhyComProtocol import ID, Handtype
+from Alive import playerStatus
+from LED import lights
 
 Colours = ["green", "blue", "yellow", "purple", "cyan", "orange", "pink"]
+thisID = ID()
 
 def randomize_list(original_list):
     # Create a new list with the same elements as the original list
@@ -65,8 +69,8 @@ while hub.wifi_is_active():
 
     if len(RHands) > 0:
         randompairs = randomize_list(RHands)
-        if len(randompairs) >= 2:
-            PairH1.append(randompairs.pop(0))
+        if len(randompairs) >= 1:
+            PairH1.append(thisID)
             PairH1.append(randompairs.pop(0))
         if len(randompairs) >= 2:
             PairH2.append(randompairs.pop(0))
@@ -87,19 +91,12 @@ while hub.wifi_is_active():
     ClrP3 = randomColour.pop(0)
     ClrP4 = randomColour.pop(0)
 
-    if len(PairH1) > 0:
-        for i in range(len(ID)):
-            if PairH1[0] == ID[i]:
-                connections[i].send(str(PairH1[1]))
-                connections[i].send(ClrP1)
-                connections[i].send(1)
-                connections[i].send(decrement)
-        for i in range(len(ID)):
-            if PairH1[1] == ID[i]:
-                connections[i].send(str(PairH1[0]))
-                connections[i].send(ClrP1)
-                connections[i].send(0)
-                connections[i].send(decrement)
+    for i in range(len(ID)):
+        if PairH1[1] == ID[i]:
+            connections[i].send(str(PairH1[0]))
+            connections[i].send(ClrP1)
+            connections[i].send(0)
+            connections[i].send(decrement)
                 
     if len(PairH2) > 0:
         for i in range(len(ID)):
@@ -142,22 +139,36 @@ while hub.wifi_is_active():
                 connections[i].send(ClrP4)
                 connections[i].send(0)
                 connections[i].send(decrement)
-
+    
     flag = True
+    
+    successfulHandshake = playerStatus(PairH1[1], ClrP1, 1, decrement)
+    print("done w shaking hands")
+    if not successfulHandshake:
+        flag = False
+    
     decrement = decrement - 1000000000
 
     for i in range(len(connections)):
         response = connections[i].receive(100)
+        print("Response" + str(i) + ": " + response)
         if response == "False":
             flag = False
 
     if flag == False:
         for i in range(len(connections)):
             connections[i].send("gameover")
-    if flag == True:
+            print("Sent " + str(i))
+        lights("gameover")    
+        
+    if flag == False:
+        break
+    elif flag == True:
         for i in range(len(connections)):
             connections[i].send("gameon")
 
 # close the connection
-connections[0].close()
-connections[1].close()
+print("out")
+for i in range(len(connections)):
+    connections[i].close()
+    

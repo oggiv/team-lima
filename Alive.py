@@ -26,6 +26,7 @@ def playerStatus(ExpectedID, colour, RecFlag, time_playerout):
                 for i in range(2):
                     Send()
                 RecPlayerID = 0
+            Send()
         lights("red")
         return False
     
