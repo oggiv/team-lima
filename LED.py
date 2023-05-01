@@ -103,7 +103,27 @@ def lights(colour):
             for o in range(255, 0, -1):
                 rgb(255, 0, o)
                 time.sleep(b)
+    
+    if (colour == "gameover"):
+        b = 0.005
+        for x in range(5):
+            rgb(255, 0, 0)
+            time.sleep(0.1)
+            for i in range(255):
+                rgb(255, i, i)
+                time.sleep(b)
+    
+    if (colour == "connected"):
+        b = 0.005
+        for x in range(5):
+            time.sleep(0.1)
+            for i in range(255):
+                rgb(i, i, 255)
+                time.sleep(b)
+            rgb(0, 0, 255)
 
 def playerColour(ID): # Run the lightshow and then present the given playercolour
     lights("lightshow")
     lights(ID)
+
+lights("connected")
