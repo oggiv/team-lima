@@ -6,7 +6,7 @@ import gc
 #gc.collect()
 #gc.enable()
 
-
+# Toggling pins for each colour
 Led_R = PWM(Pin(2))
 Led_G = PWM(Pin(8))
 Led_B = PWM(Pin(12))
@@ -16,11 +16,13 @@ Led_R.freq(2000)
 Led_G.freq(2000)
 Led_B.freq(2000)
 
+# Method used to toggle each colour
 def rgb(a, b, c):
     Led_R.duty_u16(a * 257)
     Led_G.duty_u16(b * 257)
     Led_B.duty_u16(c * 257)
     
+# Definition of prebuilt colours
 def lights(colour):
     
     if (colour == "off" or colour == "all"):
@@ -102,6 +104,6 @@ def lights(colour):
                 rgb(255, 0, o)
                 time.sleep(b)
 
-def playerColour(ID):
+def playerColour(ID): # Run the lightshow and then present the given playercolour
     lights("lightshow")
     lights(ID)
