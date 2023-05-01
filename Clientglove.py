@@ -30,8 +30,9 @@ def Gamecycle(): #Runs one cycle of the game
     print(colour)
     recieverflag = int(conn.receive(100))
     print(recieverflag)
+    time_playerout = int(conn.receive(100000000000))
 
-    successfulHandshake = playerStatus(partnerID, colour, recieverflag)
+    successfulHandshake = playerStatus(partnerID, colour, recieverflag, time_playerout)
     if successfulHandshake:
         conn.send("True")
     elif not successfulHandshake:
