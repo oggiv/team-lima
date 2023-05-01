@@ -35,9 +35,10 @@ def Gamecycle(): #Runs one cycle of the game
     elif not successfulHandshake:
         conn.send("False")
 
-for i in range(2)
+gameStatus = "gameon"
+while gameStatus != "gameover":
     Gamecycle()
-    time.sleep(10)
+    gameStatus = conn.receive(100)
 
 # close the connection
 conn.close()
