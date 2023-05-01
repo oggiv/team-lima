@@ -28,56 +28,125 @@ hub.start_wifi('rpi_test', '12345678')
 # check if wifi is running like it should
 print(hub.wifi_is_active())
 
-# accept a socket connection from a client and make a connection object for it
-conn1 = hub.accept_connection()
-conn2 = hub.accept_connection()
+# accept socket connections from clients 
+connections = []
 
-# receive ID + Handtype
-ID1 = int(conn1.receive(256))
-print(ID1)
-HAND1 = conn1.receive(100)
-print(HAND1)
-ID2 = int(conn2.receive(256))
-print(ID2)
-HAND2 = conn2.receive(100)
-print(HAND2)
+try:
+    while True: 
+        connections.append(hub.accept_connection())
+except OSError: # specify error and add response?
+    print("no more clients")
+    pass
 
-randomColour = randomize_list(Colours)
-ClrP1 = randomColour.pop(0)
-        
-conn1.send(str(ID2))
-conn1.send(ClrP1)
-conn1.send(1)
-conn2.send(str(ID1))
-conn2.send(ClrP1)
-conn2.send(0)
+# ID array and handtype array
+ID = []
+RHands = []
+LHands = []
 
-time.sleep(10)
+for i in range(len(connections)):
+    ID.append(int(connections[i].receive(256)))
+    HAND = connections[i].receive(100)
+    if HAND == "right":
+        RHands.append(ID[i])
+    elif HAND1 == "left":
+        LHands.append(ID[i])
+    
+print(ID)
+print(RHands)
 
-if conn1.receive(100) == "True":
-    print("Successful Handshake Conn1")
-if conn2.receive(100) == "True":
-    print("Successful Handshake Conn2")
+while hub.wifi_is_active():
 
-ClrP2 = randomColour.pop(0)
-ClrP3 = randomColour.pop(0)
+    PairH1 = []
+    PairH2 = []
+    PairV1 = []
+    PairV2 = []
 
-conn1.send(str(169))
-conn1.send(ClrP2)
-conn1.send(1)
-print("ins1 sent")
-conn2.send(str(237))
-conn2.send(ClrP3)
-conn2.send(0)
-print("ins2 sent")
+    if len(RHands) > 0:
+        randompairs = randomize_list(RHands)
+        if len(randompairs) >= 2:
+            PairH1.append(randompairs.pop(0))
+            PairH1.append(randompairs.pop(0))
+        if len(randompairs) >= 2:
+            PairH2.append(randompairs.pop(0))
+            PairH2.append(randompairs.pop(0))
 
-time.sleep(10)
+    if len(LHands) > 0:
+        randompairs = randomize_list(LHands)
+        if len(randompairs) >= 2:
+            PairV1.append(randompairs.pop(0))
+            PairV1.append(randompairs.pop(0))
+        if len(randompairs) >= 2:
+            PairV2.append(randompairs.pop(0))
+            PairV2.append(randompairs.pop(0))
 
-if conn1.receive(100) == "False":
-    print("Unsuccessful Handshake Conn1")
-if conn2.receive(100) == "False":
-    print("Unsuccessful Handshake Conn2")
+    randomColour = randomize_list(Colours)
+    ClrP1 = randomColour.pop(0)
+    ClrP2 = randomColour.pop(0)
+    ClrP3 = randomColour.pop(0)
+    ClrP4 = randomColour.pop(0)
+
+    if len(PairH1) > 0:
+        for i in range(len(ID)):
+            if PairH1[0] == ID[i]:
+                connections[i].send(str(PairH1[1]))
+                connections[i].send(ClrP1)
+                connections[i].send(1)
+        for i in range(len(ID)):
+            if PairH1[1] == ID[i]:
+                connections[i].send(str(PairH1[0]))
+                connections[i].send(ClrP1)
+                connections[i].send(0)
+                
+    if len(PairH2) > 0:
+        for i in range(len(ID)):
+            if PairH2[0] == ID[i]:
+                connections[i].send(str(PairH2[1]))
+                connections[i].send(ClrP2)
+                connections[i].send(1)
+        for i in range(len(ID)):
+            if PairH2[1] == ID[i]:
+                connections[i].send(str(PairH2[0]))
+                connections[i].send(ClrP2)
+                connections[i].send(0)
+                
+    if len(PairV1) > 0:
+        for i in range(len(ID)):
+            if PairV1[0] == ID[i]:
+                connections[i].send(str(PairV1[1]))
+                connections[i].send(ClrP3)
+                connections[i].send(1)
+        for i in range(len(ID)):
+            if PairV1[1] == ID[i]:
+                connections[i].send(str(PairV1[0]))
+                connections[i].send(ClrP3)
+                connections[i].send(0)
+
+    if len(PairV2) > 0:
+        for i in range(len(ID)):
+            if PairV2[0] == ID[i]:
+                connections[i].send(str(PairV2[1]))
+                connections[i].send(ClrP4)
+                connections[i].send(1)
+        for i in range(len(ID)):
+            if PairV2[1] == ID[i]:
+                connections[i].send(str(PairV2[0]))
+                connections[i].send(ClrP4)
+                connections[i].send(0)
+
+    flag = True
+
+    for i in range(len(connections)):
+        response = connections[i].receive(100)
+        if response == "False":
+            flag = False
+
+    if flag == False:
+        for i in range(len(connections)):
+            connections[i].send("gameover")
+    if flag == True:
+        for i in range(len(connections)):
+            connections[i].send("gameon")
 
 # close the connection
-conn1.close()
-conn2.close()
+connections[0].close()
+connections[1].close()
