@@ -54,7 +54,7 @@ for i in range(len(connections)): # For all connected units
         LHands.append(ID[i]) # Append its ID to the list of left hands
 
 decrement = 20000000000 # Initializing round timer
-Lives = 3 # Initializing game lives
+lives = 3 # Initializing game lives
 Gameover = False # Initializing game status flag
 
 while hub.wifi_is_active(): # While we are a hub
