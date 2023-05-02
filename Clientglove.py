@@ -1,5 +1,3 @@
-# client_example.py
-# how to use the wireless library to run a client
 import wireless
 from Alive import playerStatus
 from PhyComProtocol import ID, Handtype
@@ -20,29 +18,28 @@ lights("connected")
 # create a socket connection to the hub
 conn = client.get_connection()
 
-conn.send(str(ID()))
-conn.send(Handtype())
+conn.send(str(ID())) # Send THIS units ID
+conn.send(Handtype()) # Send THIS units Handtype
 
 def Gamecycle(): #Runs one cycle of the game
-    partnerID = int(conn.receive(100))
+    partnerID = int(conn.receive(100)) # Receive partners ID
     print(partnerID)
-    colour = conn.receive(100)
+    colour = conn.receive(100) # Receive given pair colour
     print(colour)
-    recieverflag = int(conn.receive(100))
-    print(recieverflag)
-    time_playerout = int(conn.receive(100000000000))
+    receiverflag = int(conn.receive(100)) # Receive flag whether THIS unit is a sender/receiver
+    print(receiverflag)
+    time_playerout = int(conn.receive(100000000000)) # Recieve round timer (in NS)
 
-    successfulHandshake = playerStatus(partnerID, colour, recieverflag, time_playerout)
-    if successfulHandshake:
-        conn.send("True")
-    elif not successfulHandshake:
-        conn.send("False")
+    successfulHandshake = playerStatus(partnerID, colour, receiverflag, time_playerout) # Check if correct hand was shook whithin time
+    if successfulHandshake: # If correct hand was shook:
+        conn.send("True") # Send "True" to hub
+    elif not successfulHandshake: # If incorrect hand was shook:
+        conn.send("False") # Send "False" to hub
 
-gameStatus = "gameon"
-while gameStatus != "gameover":
-    Gamecycle()
-    gameStatus = conn.receive(100)
+gameStatus = "gameon" # Initialize game status flag
+while gameStatus != "gameover": # While game is not over
+    Gamecycle() # Run gamecycle
+    gameStatus = conn.receive(100) # Check if game is over
 
-lights("gameover")
-# close the connection
-conn.close()
+lights("gameover") # Game is over, Run gameover lightshow
+conn.close() # close the connection
