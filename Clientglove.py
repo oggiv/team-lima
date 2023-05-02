@@ -39,6 +39,9 @@ def Gamecycle(): #Runs one cycle of the game
 gameStatus = "gameon" # Initialize game status flag
 while gameStatus != "gameover": # While game is not over
     Gamecycle() # Run gamecycle
+    lifeStatus = conn.receive(100)
+    if lifeStatus == "loselife":
+        lights("lostlife")
     gameStatus = conn.receive(100) # Check if game is over
 
 lights("gameover") # Game is over, Run gameover lightshow

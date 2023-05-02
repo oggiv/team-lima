@@ -54,6 +54,8 @@ for i in range(len(connections)): # For all connected units
         LHands.append(ID[i]) # Append its ID to the list of left hands
 
 decrement = 20000000000 # Initializing round timer
+Lives = 3 # Initializing game lives
+Gameover = False # Initializing game status flag
 
 while hub.wifi_is_active(): # While we are a hub
 
@@ -156,17 +158,26 @@ while hub.wifi_is_active(): # While we are a hub
             flag = False
 
     if flag == False: # If any of the handshakes were unsuccessful
-        for i in range(len(connections)): # Send "gameover" to all units
-            connections[i].send("gameover")
-            print("Sent " + str(i))
-        lights("gameover")    
+        lives = lives - 1 # Subtract one life
+        for i in range(len(connections)): # Send "loselife" to all units
+                connections[i].send("loselife")
+        if lives == 0:
+            for i in range(len(connections)): # Send "gameover" to all units
+                connections[i].send("gameover")
+                print("Sent " + str(i))
+            lights("gameover")
+            Gameover = True
+            
+    elif flag == True: # If none of the handshakes were unsuccessful
+        for i in range(len(connections)): # Send "continue" to all units
+                connections[i].send("continue")
         
-    if flag == False: # If game is over:
+    if Gameover == True: # If game is over:
         break # Break game loop
     
-    elif flag == True: # If game is not over:
-        for i in range(len(connections)): # Send "gameon" to all units
-            connections[i].send("gameon") 
+    elif Gameover == False: # If game is not over:
+        for i in range(len(connections)): # Send "continue" to all units
+            connections[i].send("continue") 
             
     decrement = decrement - 1000000000 # Reduce round timer
 
