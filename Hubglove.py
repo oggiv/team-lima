@@ -1,5 +1,3 @@
-# hub_example.py
-# how to use the wireless library to run a hub
 import wireless
 import random
 import time
@@ -50,13 +48,10 @@ LHands = []
 for i in range(len(connections)): # For all connected units
     ID.append(int(connections[i].receive(256))) # Recieve ID as an integer
     HAND = connections[i].receive(100) # Recieve Handtype as a string
-    if HAND == "right":
-        RHands.append(ID[i])
-    elif HAND1 == "left":
-        LHands.append(ID[i])
-    
-print(ID)
-print(RHands)
+    if HAND == "right": # If hand is right
+        RHands.append(ID[i]) # Append its ID to the list of right hands
+    elif HAND1 == "left": # If hand is left
+        LHands.append(ID[i]) # Append its ID to the list of left hands
 
 decrement = 20000000000 # Initializing round timer
 
@@ -151,7 +146,7 @@ while hub.wifi_is_active(): # While we are a hub
     flag = True # Parameter used for determining whether the handshakes were successful
     successfulHandshake = playerStatus(PairH1[1], ClrP1, 1, decrement) # Check if THIS handshake was successful
     print("done w shaking hands")
-    if not successfulHandshake: # If THIS handshake was successful:
+    if not successfulHandshake: # If THIS handshake was unsuccessful:
         flag = False
 
     for i in range(len(connections)): # Check if all units conducted a successful handshake:
