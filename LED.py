@@ -121,7 +121,18 @@ def lights(colour):
                 rgb(i, i, 255)
                 time.sleep(b)
             rgb(0, 0, 255)
+            
+    if (colour == "lostlife"):
+        b = 0.003
+        for x in range(7):
+            #time.sleep(0.1)
+            for i in range(255):
+                rgb(i, 0, 0)
+                time.sleep(b)
+            rgb(255, 0, 0)
 
 def playerColour(ID): # Run the lightshow and then present the given playercolour
     lights("lightshow")
     lights(ID)
+    
+lights("lostlife")
