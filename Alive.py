@@ -42,6 +42,8 @@ def playerStatus(ExpectedID, colour, RecFlag, time_playerout): # Method used to 
                     RecPlayerID = Recieve() # Read value off bitstream
                     if RecPlayerID == ExpectedID: # If read value is equivalent to the partner in the same pair:
                         lights("white") # Display WHITE colour
+                        for i in range(5): # Send THIS units ID a couple of times
+                        Send()
                         return True
                     elif (RecPlayerID == 333 or RecPlayerID == 666): # If a bad read was conducted:
                         RecPlayerID = Recieve() # Read value off bitstream
