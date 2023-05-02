@@ -133,7 +133,7 @@ def Send(): #Run send operation
             sleep(freq)        #
 ################################
 
-def Recieve():
+def Receive():
     input1 = Pin(4, Pin.IN, Pin.PULL_DOWN) #Setting up transmission
     inputstream = [] #Input stream is stored in this array
     ID_Rec = [] #Used to extract the bit value
