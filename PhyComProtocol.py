@@ -184,7 +184,7 @@ def Receive():
                     bit3 = bit4
                     bit4 = inputstream.pop(0)
                 else: #If connection is lost between units
-                    print("Connection lost")
+                    #print("Connection lost")
                     return 0
             
         read_value = 0 #Variable in which the final numeric value is stored to
