@@ -58,12 +58,11 @@ lives = 3 # Initializing game lives
 Gameover = False # Initializing game status flag
 RSinceSwaroo = 0
 
-
 while hub.wifi_is_active(): # While we are a hub
-PairsAmountR = 0
-PairsAmountL = 0
-switcharooR = 0
-switcharooL = 0
+    PairsAmountR = 0
+    PairsAmountL = 0
+    switcharooR = 0
+    switcharooL = 0
 
 # Lists in which pairs are created
     PairH1 = []
@@ -76,22 +75,22 @@ switcharooL = 0
         if len(randompairs) >= 1: # If there exists one unassigned right hand
             PairH1.append(thisID) # Append pair with this hubgloves ID
             PairH1.append(randompairs.pop(0)) # Append pair with the first randomized ID
-            PairsAmountR = PairsamountR + 1
+            PairsAmountR = PairsAmountR + 1
         if len(randompairs) >= 2: # If there exists two more unassigned right hands
             PairH2.append(randompairs.pop(0)) # Append pair with the next randomized ID
             PairH2.append(randompairs.pop(0)) # Append pair with the next randomized ID
-            PairsAmountR = PairsamountR + 1
+            PairsAmountR = PairsAmountR + 1
 
     if len(LHands) > 0: # If any left hands are connected
         randompairs = randomize_list(LHands) # Randomize the list of their IDs
         if len(randompairs) >= 2: #If there exists two unassigned left hands
             PairV1.append(randompairs.pop(0)) # Append pair with the first randomized ID
             PairV1.append(randompairs.pop(0)) # Append pair with the next randomized ID
-            PairsAmountL = PairsamountL + 1
+            PairsAmountL = PairsAmountL + 1
         if len(randompairs) >= 2: # If there exists two more unassigned left hands
             PairV2.append(randompairs.pop(0)) # Append pair with the next randomized ID
             PairV2.append(randompairs.pop(0)) # Append pair with the next randomized ID
-            PairsAmountL = PairsamountL + 1
+            PairsAmountL = PairsAmountL + 1
 
     randomColour = randomize_list(Colours) # Randomize the list of colours
     ClrP1 = randomColour.pop(0) # Extract one colour
@@ -99,7 +98,7 @@ switcharooL = 0
     ClrP3 = randomColour.pop(0) # Extract another colour
     ClrP4 = randomColour.pop(0) # Extract another colour
     
-    if PairsAmountR >= 2:
+    if PairsAmountR >= 1:
         switcharooR = random.randint(0, 10 - RSinceSwaroo)
         if switcharooR == 1:
             RSinceSwaroo = 0
@@ -185,7 +184,7 @@ switcharooL = 0
 ##########################################################
                 
     flag = True # Parameter used for determining whether the handshakes were successful
-    successfulHandshake = playerStatus(PairH1[1], ClrP1, 1, decrement) # Check if THIS handshake was successful
+    successfulHandshake = playerStatus(PairH1[1], ClrP1, 1, decrement, ClrP1) # Check if THIS handshake was successful
     print("done w shaking hands")
     if not successfulHandshake: # If THIS handshake was unsuccessful:
         flag = False
