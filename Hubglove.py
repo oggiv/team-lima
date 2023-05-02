@@ -161,11 +161,12 @@ while hub.wifi_is_active(): # While we are a hub
         lives = lives - 1 # Subtract one life
         for i in range(len(connections)): # Send "loselife" to all units
                 connections[i].send("loselife")
+        lights("lostlife") # Run "lostlife" lightshow on THIS unit (the hub unit)
         if lives == 0:
             for i in range(len(connections)): # Send "gameover" to all units
                 connections[i].send("gameover")
                 print("Sent " + str(i))
-            lights("gameover")
+            lights("gameover") # Run "gameover" lightshow on THIS unit (the hub unit)
             Gameover = True
             
     elif flag == True: # If none of the handshakes were unsuccessful
@@ -179,7 +180,7 @@ while hub.wifi_is_active(): # While we are a hub
         for i in range(len(connections)): # Send "continue" to all units
             connections[i].send("continue") 
             
-    decrement = decrement - 1000000000 # Reduce round timer
+    decrement = decrement - 2000000000 # Reduce round timer
 
 # close the connection, happens when game loop is broken
 print("out")
