@@ -31,7 +31,7 @@ def lights(colour):
              time.sleep(1)
     
     if (colour == "white" or colour == "all"):
-         rgb(255, 255, 255)
+         rgb(255, 255, 200)
          if(colour == "all"):
              time.sleep(1)
          
@@ -56,12 +56,12 @@ def lights(colour):
              time.sleep(1)
          
     if (colour == "purple" or colour == "all"):
-         rgb(200, 0, 255)
+         rgb(255, 0, 255)
          if(colour == "all"):
              time.sleep(1)
          
     if (colour == "cyan" or colour == "all"):
-         rgb(0, 150, 200)
+         rgb(0, 80, 120)
          if(colour == "all"):
              time.sleep(1)
     
@@ -71,7 +71,7 @@ def lights(colour):
             time.sleep(1)
             
     if (colour == "pink" or colour == "all"):
-        rgb(255, 10, 80)
+        rgb(255, 40, 60)
         if(colour == "all"):
             time.sleep(1)
              
