@@ -8,11 +8,12 @@ import gc
 gc.collect()
 gc.enable()
 
-def playerStatus(ExpectedID, colour, RecFlag, time_playerout): # Method used to process the physical communication between units
+def playerStatus(ExpectedID, colour, RecFlag, time_playerout, SWcolour): # Method used to process the physical communication between units
     if RecFlag == 1: # If THIS unit is a RECEIVER:
-        playerColour(colour) # Run initial lightshow and display colour
         RecPlayerID = 0 # Initializing variable to store Received ID over bitbanger link
+        playerColour(SWcolour) # Run initial lightshow and display colour
         time1 = time.time_ns()
+        time.sleep(2)
         while(time.time_ns() - time1 < time_playerout): # While round timer is not exceeded
             lights(colour) # Display given pair colour
             RecPlayerID = Receive() # Read value off the bitstream
@@ -32,8 +33,9 @@ def playerStatus(ExpectedID, colour, RecFlag, time_playerout): # Method used to 
     
     elif RecFlag == 0: # If THIS unit is a SENDER:
         RecPlayerID = 0 # Initialize variable to store Received ID
-        playerColour(colour) # Run lightshow and display given pair colour
         time1 = time.time_ns()
+        playerColour(SWcolour) # Run lightshow and display given pair colour
+        time.sleep(2)
         while(time.time_ns() - time1 < time_playerout): # While round timer is not exceeded
             lights(colour) # Display given pair colour
             Send() # Send ID on the bitstream

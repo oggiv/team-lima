@@ -29,8 +29,9 @@ def Gamecycle(): #Runs one cycle of the game
     receiverflag = int(conn.receive(100)) # Receive flag whether THIS unit is a sender/receiver
     print(receiverflag)
     time_playerout = int(conn.receive(100000000000)) # Recieve round timer (in NS)
-
-    successfulHandshake = playerStatus(partnerID, colour, receiverflag, time_playerout) # Check if correct hand was shook whithin time
+    SWcolour = conn.receive(100)
+    
+    successfulHandshake = playerStatus(partnerID, colour, receiverflag, time_playerout, SWcolour) # Check if correct hand was shook whithin time
     if successfulHandshake: # If correct hand was shook:
         conn.send("True") # Send "True" to hub
     elif not successfulHandshake: # If incorrect hand was shook:
