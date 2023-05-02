@@ -77,8 +77,7 @@ def lights(colour):
              
     if (colour == "lightshow"):
         
-        time1 = time.time_ns()
-        while (time.time_ns() - time1 < 4000000000):
+        for x in range(3):
             b = 0.001
             for i in range(255):
                 rgb(255, i, 0)
