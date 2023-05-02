@@ -7,8 +7,8 @@ from PhyComProtocol import ID, Handtype
 from Alive import playerStatus
 from LED import lights
 
-Colours = ["green", "blue", "yellow", "purple", "cyan", "orange", "pink"]
-thisID = ID()
+Colours = ["green", "blue", "yellow", "purple", "cyan", "orange", "pink"] # List of available colours
+thisID = ID() # Extract this gloves ID
 
 def randomize_list(original_list):
     # Create a new list with the same elements as the original list
@@ -35,21 +35,21 @@ print(hub.wifi_is_active())
 # accept socket connections from clients 
 connections = []
 
-try:
+try: # accept connections until socket is timed out
     while True: 
         connections.append(hub.accept_connection())
-except OSError: # specify error and add response?
+except OSError: # Catch socket timeout
     print("no more clients")
     pass
 
-# ID array and handtype array
+# ID list and handtype lists
 ID = []
 RHands = []
 LHands = []
 
-for i in range(len(connections)):
-    ID.append(int(connections[i].receive(256)))
-    HAND = connections[i].receive(100)
+for i in range(len(connections)): # For all connected units
+    ID.append(int(connections[i].receive(256))) # Recieve ID as an integer
+    HAND = connections[i].receive(100) # Recieve Handtype as a string
     if HAND == "right":
         RHands.append(ID[i])
     elif HAND1 == "left":
@@ -58,116 +58,124 @@ for i in range(len(connections)):
 print(ID)
 print(RHands)
 
-decrement = 20000000000
+decrement = 20000000000 # Initializing round timer
 
-while hub.wifi_is_active():
+while hub.wifi_is_active(): # While we are a hub
 
+# Lists in which pairs are created
     PairH1 = []
     PairH2 = []
     PairV1 = []
     PairV2 = []
 
-    if len(RHands) > 0:
-        randompairs = randomize_list(RHands)
-        if len(randompairs) >= 1:
-            PairH1.append(thisID)
-            PairH1.append(randompairs.pop(0))
-        if len(randompairs) >= 2:
-            PairH2.append(randompairs.pop(0))
-            PairH2.append(randompairs.pop(0))
+    if len(RHands) > 0: # If any right hands are connected 
+        randompairs = randomize_list(RHands) # Randomize the list of their IDs
+        if len(randompairs) >= 1: # If there exists one unassigned right hand
+            PairH1.append(thisID) # Append pair with this hubgloves ID
+            PairH1.append(randompairs.pop(0)) # Append pair with the first randomized ID
+        if len(randompairs) >= 2: # If there exists two more unassigned right hands
+            PairH2.append(randompairs.pop(0)) # Append pair with the next randomized ID
+            PairH2.append(randompairs.pop(0)) # Append pair with the next randomized ID
 
-    if len(LHands) > 0:
-        randompairs = randomize_list(LHands)
-        if len(randompairs) >= 2:
-            PairV1.append(randompairs.pop(0))
-            PairV1.append(randompairs.pop(0))
-        if len(randompairs) >= 2:
-            PairV2.append(randompairs.pop(0))
-            PairV2.append(randompairs.pop(0))
+    if len(LHands) > 0: # If any left hands are connected
+        randompairs = randomize_list(LHands) # Randomize the list of their IDs
+        if len(randompairs) >= 2: #If there exists two unassigned left hands
+            PairV1.append(randompairs.pop(0)) # Append pair with the first randomized ID
+            PairV1.append(randompairs.pop(0)) # Append pair with the next randomized ID
+        if len(randompairs) >= 2: # If there exists two more unassigned left hands
+            PairV2.append(randompairs.pop(0)) # Append pair with the next randomized ID
+            PairV2.append(randompairs.pop(0)) # Append pair with the next randomized ID
 
-    randomColour = randomize_list(Colours)
-    ClrP1 = randomColour.pop(0)
-    ClrP2 = randomColour.pop(0)
-    ClrP3 = randomColour.pop(0)
-    ClrP4 = randomColour.pop(0)
-
-    for i in range(len(ID)):
-        if PairH1[1] == ID[i]:
-            connections[i].send(str(PairH1[0]))
-            connections[i].send(ClrP1)
-            connections[i].send(0)
-            connections[i].send(decrement)
-                
-    if len(PairH2) > 0:
-        for i in range(len(ID)):
-            if PairH2[0] == ID[i]:
-                connections[i].send(str(PairH2[1]))
-                connections[i].send(ClrP2)
-                connections[i].send(1)
-                connections[i].send(decrement)
-        for i in range(len(ID)):
-            if PairH2[1] == ID[i]:
-                connections[i].send(str(PairH2[0]))
-                connections[i].send(ClrP2)
-                connections[i].send(0)
-                connections[i].send(decrement)
-                
-    if len(PairV1) > 0:
-        for i in range(len(ID)):
-            if PairV1[0] == ID[i]:
-                connections[i].send(str(PairV1[1]))
-                connections[i].send(ClrP3)
-                connections[i].send(1)
-                connections[i].send(decrement)
-        for i in range(len(ID)):
-            if PairV1[1] == ID[i]:
-                connections[i].send(str(PairV1[0]))
-                connections[i].send(ClrP3)
-                connections[i].send(0)
-                connections[i].send(decrement)
-
-    if len(PairV2) > 0:
-        for i in range(len(ID)):
-            if PairV2[0] == ID[i]:
-                connections[i].send(str(PairV2[1]))
-                connections[i].send(ClrP4)
-                connections[i].send(1)
-                connections[i].send(decrement)
-        for i in range(len(ID)):
-            if PairV2[1] == ID[i]:
-                connections[i].send(str(PairV2[0]))
-                connections[i].send(ClrP4)
-                connections[i].send(0)
-                connections[i].send(decrement)
+    randomColour = randomize_list(Colours) # Randomize the list of colours
+    ClrP1 = randomColour.pop(0) # Extract one colour
+    ClrP2 = randomColour.pop(0) # Extract another colour
+    ClrP3 = randomColour.pop(0) # Extract another colour
+    ClrP4 = randomColour.pop(0) # Extract another colour
     
-    flag = True
-    
-    successfulHandshake = playerStatus(PairH1[1], ClrP1, 1, decrement)
+##########################################################
+##  Check which connection each id belongs to and send  ##
+## their partners ID, pair colour, sender/reciever flag ##
+##                  and round timer                     ##
+##########################################################
+    for i in range(len(ID)):                            ##
+        if PairH1[1] == ID[i]:                          ##
+            connections[i].send(str(PairH1[0]))         ##
+            connections[i].send(ClrP1)                  ##
+            connections[i].send(0)                      ##
+            connections[i].send(decrement)              ##
+                                                        ##
+    if len(PairH2) > 0:                                 ##
+        for i in range(len(ID)):                        ##
+            if PairH2[0] == ID[i]:                      ##
+                connections[i].send(str(PairH2[1]))     ##
+                connections[i].send(ClrP2)              ##
+                connections[i].send(1)                  ##
+                connections[i].send(decrement)          ##
+        for i in range(len(ID)):                        ##
+            if PairH2[1] == ID[i]:                      ##
+                connections[i].send(str(PairH2[0]))     ##
+                connections[i].send(ClrP2)              ##
+                connections[i].send(0)                  ##
+                connections[i].send(decrement)          ##
+                                                        ##
+    if len(PairV1) > 0:                                 ##
+        for i in range(len(ID)):                        ##
+            if PairV1[0] == ID[i]:                      ##
+                connections[i].send(str(PairV1[1]))     ##
+                connections[i].send(ClrP3)              ##
+                connections[i].send(1)                  ##
+                connections[i].send(decrement)          ##
+        for i in range(len(ID)):                        ##
+            if PairV1[1] == ID[i]:                      ##
+                connections[i].send(str(PairV1[0]))     ##
+                connections[i].send(ClrP3)              ##
+                connections[i].send(0)                  ##
+                connections[i].send(decrement)          ##
+                                                        ##
+    if len(PairV2) > 0:                                 ##
+        for i in range(len(ID)):                        ##
+            if PairV2[0] == ID[i]:                      ##
+                connections[i].send(str(PairV2[1]))     ##
+                connections[i].send(ClrP4)              ##
+                connections[i].send(1)                  ##
+                connections[i].send(decrement)          ##
+        for i in range(len(ID)):                        ##
+            if PairV2[1] == ID[i]:                      ##
+                connections[i].send(str(PairV2[0]))     ##
+                connections[i].send(ClrP4)              ##
+                connections[i].send(0)                  ##
+                connections[i].send(decrement)          ##
+##########################################################
+##########################################################
+                
+    flag = True # Parameter used for determining whether the handshakes were successful
+    successfulHandshake = playerStatus(PairH1[1], ClrP1, 1, decrement) # Check if THIS handshake was successful
     print("done w shaking hands")
-    if not successfulHandshake:
+    if not successfulHandshake: # If THIS handshake was successful:
         flag = False
-    
-    decrement = decrement - 1000000000
 
-    for i in range(len(connections)):
-        response = connections[i].receive(100)
+    for i in range(len(connections)): # Check if all units conducted a successful handshake:
+        response = connections[i].receive(100) # Retrieve one response
         print("Response" + str(i) + ": " + response)
-        if response == "False":
+        if response == "False": # If response was false:
             flag = False
 
-    if flag == False:
-        for i in range(len(connections)):
+    if flag == False: # If any of the handshakes were unsuccessful
+        for i in range(len(connections)): # Send "gameover" to all units
             connections[i].send("gameover")
             print("Sent " + str(i))
         lights("gameover")    
         
-    if flag == False:
-        break
-    elif flag == True:
-        for i in range(len(connections)):
-            connections[i].send("gameon")
+    if flag == False: # If game is over:
+        break # Break game loop
+    
+    elif flag == True: # If game is not over:
+        for i in range(len(connections)): # Send "gameon" to all units
+            connections[i].send("gameon") 
+            
+    decrement = decrement - 1000000000 # Reduce round timer
 
-# close the connection
+# close the connection, happens when game loop is broken
 print("out")
 for i in range(len(connections)):
     connections[i].close()
