@@ -6,7 +6,7 @@ gc.collect()
 gc.enable()
 
 def ID(): #Unique identification of each glove
-    return 235
+    return 200
 def Handtype():
     return "right"
 
@@ -138,7 +138,7 @@ def Receive():
     inputstream = [] #Input stream is stored in this array
     ID_Rec = [] #Used to extract the bit value
     
-    for i in range(50): #Read 50 bits
+    for i in range(45): #Read 45 bits
         inputstream.append(input1.value())
         sleep(freq)
     #print(inputstream)
