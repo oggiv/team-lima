@@ -45,8 +45,13 @@ def lights(colour):
          rgb(0, 255, 0)
          if(colour == "all"):
              time.sleep(1)
+             
+    if (colour == "turquoise" or colour == "all"):
+        rgb(5, 230, 50)
+        if(colour == "all"):
+            time.sleep(1)
          
-    if (colour == "blue" or colour == "all"):
+    if (colour == "marine" or colour == "all"):
          rgb(0, 0, 255)
          if(colour == "all"):
              time.sleep(1)
@@ -57,22 +62,27 @@ def lights(colour):
              time.sleep(1)
          
     if (colour == "purple" or colour == "all"):
-         rgb(255, 0, 255)
+         rgb(255, 0, 230)
+         if(colour == "all"):
+             time.sleep(1)
+    
+    if (colour == "lilac" or colour == "all"):
+         rgb(180, 40, 200)
          if(colour == "all"):
              time.sleep(1)
          
     if (colour == "cyan" or colour == "all"):
-         rgb(0, 80, 120)
+         rgb(0, 120, 150)
          if(colour == "all"):
              time.sleep(1)
     
     if (colour == "orange" or colour == "all"):
-        rgb(255, 18, 0)
+        rgb(255, 15, 0)
         if(colour == "all"):
             time.sleep(1)
             
     if (colour == "pink" or colour == "all"):
-        rgb(255, 40, 60)
+        rgb(255, 30, 50)
         if(colour == "all"):
             time.sleep(1)
              
@@ -134,63 +144,4 @@ def lights(colour):
 def playerColour(ID): # Run the lightshow and then present the given playercolour
     lights("lightshow")
     lights(ID)
-
-# generates nr_of_pairs amount of colours in the array colours
-# array consists of (x, y, z) values as tuples
-# usage: rgb(colours[0][0], colours[0][1], colours[0][2])
-def random_colour(nr_of_pairs):
-    r = 0
-    g = 0
-    b = 0
-    
-    func = [r, g, b]
-    colours = []
-    
-    # add all colours to return array
-    for i in range(0, nr_of_pairs):
-        x = random.randint(0, 255)
-        print(x)
-        
-        # add the rgb value to the operating function
-        func[i % 3] = (func[i % 3] + x) % 255
-        
-        if i > 2:
-            while True:
-                abs_i = (i-1) % 3
-                # #2
-                if (abs(func[i % 3] - func[abs_i]) < 70):
-                   x = random.randint(0, 255)
-                   func[i % 3] = (func[i % 3] + x) % 255
-                # #3
-                abs_i = (i-2) % 3
-                if (abs(func[i % 3] - func[abs_i])):
-                   x = random.randint(0, 255)
-                   func[i % 3] = (func[i % 3] + x) % 255
-                else:
-                    break
-                
-                func[i % 3] = (func[i % 3] + x) % 255
-                print(abs(func[i % 3] - func[abs_i]))
-            
-        # place func into array
-        colours.append((func[0], func[1], func[2]))
-    return(colours)
-
-    
-clr = random_colour(5)
-print(clr)
-
-rgb(clr[0][1], clr[0][0], clr[0][2])
-time.sleep(1)
-
-rgb(clr[1][1], clr[1][0], clr[1][2])
-time.sleep(1)
-
-rgb(clr[2][1], clr[2][0], clr[2][2])
-time.sleep(1)
-
-rgb(clr[3][1], clr[3][0], clr[3][2])
-time.sleep(1)
-
-rgb(clr[4][1], clr[4][0], clr[4][2])
-time.sleep(1)
+   
