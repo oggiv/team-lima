@@ -47,7 +47,7 @@ def lights(colour):
              time.sleep(1)
              
     if (colour == "turquoise" or colour == "all"):
-        rgb(5, 230, 50)
+        rgb(5, 255, 50)
         if(colour == "all"):
             time.sleep(1)
          
@@ -66,23 +66,8 @@ def lights(colour):
          if(colour == "all"):
              time.sleep(1)
     
-    if (colour == "lilac" or colour == "all"):
-         rgb(180, 40, 200)
-         if(colour == "all"):
-             time.sleep(1)
-         
-    if (colour == "cyan" or colour == "all"):
-         rgb(0, 120, 150)
-         if(colour == "all"):
-             time.sleep(1)
-    
     if (colour == "orange" or colour == "all"):
         rgb(255, 15, 0)
-        if(colour == "all"):
-            time.sleep(1)
-            
-    if (colour == "pink" or colour == "all"):
-        rgb(255, 30, 50)
         if(colour == "all"):
             time.sleep(1)
              
@@ -144,4 +129,3 @@ def lights(colour):
 def playerColour(ID): # Run the lightshow and then present the given playercolour
     lights("lightshow")
     lights(ID)
-   
