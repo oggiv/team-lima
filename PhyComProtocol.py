@@ -6,7 +6,7 @@ gc.collect()
 gc.enable()
 
 def ID(): #Unique identification of each glove
-    return 200
+    return 129
 def Handtype():
     return "right"
 

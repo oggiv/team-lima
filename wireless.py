@@ -1,6 +1,5 @@
 # wireless.py
 # functions for communicating over WiFi
-
 import network
 import socket
 import time
@@ -63,7 +62,7 @@ class Hub:
         self._socket = socket.socket()
         self._socket.bind(('0.0.0.0', 42)) # (address, port)
         self._socket.listen(5000)
-        self._socket.settimeout(300.0)
+        self._socket.settimeout(30.0)
     
     def start_wifi(self, ssid, password):
         # configures and starts wifi access point
