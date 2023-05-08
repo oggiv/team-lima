@@ -12,10 +12,12 @@ def playerStatus(ExpectedID, colour, time_playerout, SWcolour): # Method used to
     RecPlayerID = 0 # Initialize variable to store Received ID
     playerColour(SWcolour) # Run lightshow and display given pair colour
     time1 = time.time_ns()
-    time.sleep(1.5)
     while(time.time_ns() - time1 < time_playerout): # While round timer is not exceeded
+        if (time.time_ns() - time1 < 3000000000):
+            lights(SWcolour) # Display switcharoo colour first 3 seconds
+        else:
+            lights(colour) # Display given pair colour
         time.sleep((0.5 * random.random()))
-        lights(colour) # Display given pair colour
         if Peek() == False:
             Send() # Send ID on the bitstream
         elif Peek() == True: # If any information is Received on the bitstream:
@@ -32,11 +34,19 @@ def playerStatus(ExpectedID, colour, time_playerout, SWcolour): # Method used to
                     Send()
                     for x in range(3):
                         lights("off") # Display NO colour
-                        time.sleep(0.1)
+                        time.sleep(0.15)
                         lights(colour) # Display given pair colour
-                        time.sleep(0.1)
+                        time.sleep(0.15)
                     break # Return to send data
                 else:
                     break
     lights("red") # Time exceeded limit, Display red colour
     return False
+
+def outOfRound(time_playerout):
+    playerColour("off") # Run lightshow and display given pair colour
+    time1 = time.time_ns()
+    while(time.time_ns() - time1 < time_playerout): # While round timer is not exceeded
+        pass
+    return True
+    
