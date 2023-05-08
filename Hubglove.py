@@ -74,22 +74,26 @@ def Hub(ssid):
         if len(RHands) > 0: # If any right hands are connected 
             randompairs = randomize_list(RHands) # Randomize the list of their IDs
             if len(randompairs) >= 1: # If there exists one unassigned right hand
-                PairH1.append(thisID) # Append pair with this hubgloves ID
+                PairH1.append(randompairs.pop(0)) # Append pair with this hubgloves ID
+            if len(randompairs) >= 1: # If there exists one unassigned right hand
                 PairH1.append(randompairs.pop(0)) # Append pair with the first randomized ID
                 PairsAmountR = PairsAmountR + 1
-            if len(randompairs) >= 2: # If there exists two more unassigned right hands
+            if len(randompairs) >= 1: # If there exists two more unassigned right hands
                 PairH2.append(randompairs.pop(0)) # Append pair with the next randomized ID
+            if len(randompairs) >= 1: # If there exists one unassigned right hand
                 PairH2.append(randompairs.pop(0)) # Append pair with the next randomized ID
                 PairsAmountR = PairsAmountR + 1
 
         if len(LHands) > 0: # If any left hands are connected
             randompairs = randomize_list(LHands) # Randomize the list of their IDs
-            if len(randompairs) >= 2: #If there exists two unassigned left hands
+            if len(randompairs) >= 1: #If there exists two unassigned left hands
                 PairV1.append(randompairs.pop(0)) # Append pair with the first randomized ID
+            if len(randompairs) >= 1: #If there exists two unassigned left hands
                 PairV1.append(randompairs.pop(0)) # Append pair with the next randomized ID
                 PairsAmountL = PairsAmountL + 1
-            if len(randompairs) >= 2: # If there exists two more unassigned left hands
+            if len(randompairs) >= 1: # If there exists two more unassigned left hands
                 PairV2.append(randompairs.pop(0)) # Append pair with the next randomized ID
+            if len(randompairs) >= 1: #If there exists two unassigned left hands
                 PairV2.append(randompairs.pop(0)) # Append pair with the next randomized ID
                 PairsAmountL = PairsAmountL + 1
 
@@ -99,15 +103,17 @@ def Hub(ssid):
         ClrP3 = randomColour.pop(0) # Extract another colour
         ClrP4 = randomColour.pop(0) # Extract another colour
         
-        if PairsAmountR >= 1:
-            switcharooR = random.randint(0, 10 - RSinceSwaroo)
-            if switcharooR == 1:
-                RSinceSwaroo = 0
-        elif PairsAmountL >= 2:
-            switcharooL = random.randint(0, 10 - RSinceSwaroo)
-            if switcharooL == 1:
-                RSinceSwaroo = 0
-                
+        if PairsAmountR >= 2: # If there are more than 2 right hands
+            switcharooR = random.randint(0, 10 - RSinceSwaroo) # Returns random value between 0 and 10-1
+            if switcharooR == 1: # If the random value is 1
+                decrement = decrement + 2000000000 # Add time to the round
+                RSinceSwaroo = 0 # Reset the chance of a switcharoo 
+        elif PairsAmountL >= 2: # If there are more than 2 left hands
+            switcharooL = random.randint(0, 10 - RSinceSwaroo) # Returns random value between 0 and 10-1
+            if switcharooL == 1: # If the random value is 1
+                RSinceSwaroo = 0 # Reset the chance of a switcharoo
+                if switcharooR != 1: # If right switcharoo is not occuring
+                    decrement = decrement + 2000000000 # Add time to the round
         
         
     ##########################################################
@@ -125,7 +131,7 @@ def Hub(ssid):
                 else:                                       ##
                     connections[i].send(ClrP1)              ##
                                                             ##
-        if len(PairH2) > 0:                                 ##
+        if len(PairH2) == 2:                                ##
             for i in range(len(ID)):                        ##
                 if PairH2[0] == ID[i]:                      ##
                     connections[i].send(str(PairH2[1]))     ##
@@ -141,15 +147,21 @@ def Hub(ssid):
                         connections[i].send(ClrP1)          ##
                     else:                                   ##
                         connections[i].send(ClrP2)          ##
+        elif len(PairH2) == 1:                              ##
+            for i in range(len(ID)):                        ##
+                if PairH2[0] == ID[i]:                      ##
+                    connections[i].send(0)                  ##
+                    connections[i].send(0)                  ##               
+                    connections[i].send(0)                  ##
+                    connections[i].send(0)                  ##
                                                             ##
-        if len(PairV1) > 0:                                 ##
+        if len(PairV1) == 2:                                ##
             for i in range(len(ID)):                        ##
                 if PairV1[0] == ID[i]:                      ##
                     connections[i].send(str(PairV1[1]))     ##
                     connections[i].send(ClrP3)              ##
                     connections[i].send(decrement)          ##
-                    connections[i].send(ClrP3)              ##
-                                                            ##
+                    connections[i].send(ClrP3)              ##                                                            
             for i in range(len(ID)):                        ##
                 if PairV1[1] == ID[i]:                      ##
                     connections[i].send(str(PairV1[0]))     ##
@@ -158,8 +170,16 @@ def Hub(ssid):
                     if switcharooL == 1:                    ##
                         connections[i].send(ClrP4)          ##
                     else:                                   ##
-                        connections[i].send(ClrP3)          ##                                        ##
-        if len(PairV2) > 0:                                 ##
+                        connections[i].send(ClrP3)          ##
+        elif len(PairV1) == 1:                              ##
+            for i in range(len(ID)):                        ##
+                if PairV1[0] == ID[i]:                      ##
+                    connections[i].send(0)                  ##
+                    connections[i].send(0)                  ##               
+                    connections[i].send(0)                  ##
+                    connections[i].send(0)                  ##
+                                                            ##
+        if len(PairV2) == 2:                                ##
             for i in range(len(ID)):                        ##
                 if PairV2[0] == ID[i]:                      ##
                     connections[i].send(str(PairV2[1]))     ##
@@ -175,6 +195,13 @@ def Hub(ssid):
                         connections[i].send(ClrP3)          ##
                     else:                                   ##
                         connections[i].send(ClrP4)          ##
+        elif len(PairV2) == 1:                              ##
+            for i in range(len(ID)):                        ##
+                if PairV2[0] == ID[i]:                      ##
+                    connections[i].send(0)                  ##
+                    connections[i].send(0)                  ##               
+                    connections[i].send(0)                  ##
+                    connections[i].send(0)                  ##
     ##########################################################
     ##########################################################
                     
