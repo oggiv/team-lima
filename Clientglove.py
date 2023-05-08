@@ -1,5 +1,5 @@
 import wireless
-from Alive import playerStatus
+from Alive import playerStatus, outOfRound
 from PhyComProtocol import ID, Handtype
 import time
 from LED import lights
@@ -27,12 +27,18 @@ def Client(ssid):
         colour = conn.receive(100) # Receive given pair colour
         time_playerout = int(conn.receive(100000000000)) # Recieve round timer (in NS)
         SWcolour = conn.receive(100) # Receive eventual switcharoo colour
-        
-        successfulHandshake = playerStatus(partnerID, colour, time_playerout, SWcolour) # Check if correct hand was shook whithin time
-        if successfulHandshake: # If correct hand was shook:
-            conn.send("True") # Send "True" to hub
-        elif not successfulHandshake: # If incorrect hand was shook:
-            conn.send("False") # Send "False" to hub
+        if(partnerID == 0 and colour == "0" and SWcolour == "0"):
+            returner = outOfRound(time_playerout)
+            if returner: # If correct hand was shook:
+                conn.send("True") # Send "True" to hub
+            elif not returner: # If incorrect hand was shook:
+                conn.send("False") # Send "False" to hub
+        else:
+            successfulHandshake = playerStatus(partnerID, colour, time_playerout, SWcolour) # Check if correct hand was shook whithin time
+            if successfulHandshake: # If correct hand was shook:
+                conn.send("True") # Send "True" to hub
+            elif not successfulHandshake: # If incorrect hand was shook:
+                conn.send("False") # Send "False" to hub
 
     gameStatus = "gameon" # Initialize game status flag
     while gameStatus != "gameover": # While game is not over
