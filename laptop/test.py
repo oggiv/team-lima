@@ -1,10 +1,10 @@
 #SERVER
-from playsound import playsound
 import socket
 import random
 
 Colours = ["green", "blue", "yellow", "purple", "cyan", "orange"] # List of available colours
 
+    
 # Definition of Connection object
 class Connection:
     
@@ -125,6 +125,14 @@ def Main():
             if len(randompairs) >= 1: # If there exists one unassigned right hand
                 PairH2.append(randompairs.pop(0)) # Append pair with the next randomized ID
                 PairsAmountR = PairsAmountR + 1
+                
+        if (len(randompairs) != 0):
+            for i in range(len(ID)):                       
+                if randompairs[0] == ID[i]:                
+                    connections[i].send(0)                 
+                    connections[i].send(0)                                 
+                    connections[i].send(0)               
+                    connections[i].send(0)
 
         if len(LHands) > 0: # If any left hands are connected
             randompairs = randomize_list(LHands) # Randomize the list of their IDs
@@ -138,6 +146,14 @@ def Main():
             if len(randompairs) >= 1: #If there exists two unassigned left hands
                 PairV2.append(randompairs.pop(0)) # Append pair with the next randomized ID
                 PairsAmountL = PairsAmountL + 1
+                
+        if (len(randompairs) != 0):
+            for i in range(len(ID)):                       
+                if randompairs[0] == ID[i]:                
+                    connections[i].send(0)                 
+                    connections[i].send(0)                                 
+                    connections[i].send(0)               
+                    connections[i].send(0)
 
         randomColour = randomize_list(Colours) # Randomize the list of colours
         ClrP1 = randomColour.pop(0) # Extract one colour
@@ -157,8 +173,6 @@ def Main():
                 if switcharooR != 1: # If right switcharoo is not occuring
                     decrement = decrement + 2000000000 # Add time to the round
                 
-        
-        
     ##########################################################
     ##  Check which connection each id belongs to and send  ##
     ##   their partners ID, pair colour, round timer and    ##
@@ -199,7 +213,8 @@ def Main():
                     connections[i].send(str(PairH2[0]))     ##
                     connections[i].send(ClrP2)              ##                
                     connections[i].send(decrement)          ##
-                    if switcharooR == 1:                    ##
+                    if switcharooR == 1:
+                        var3 = True # Launch created thread####
                         connections[i].send(ClrP1)          ##
                     else:                                   ##
                         connections[i].send(ClrP2)          ##
@@ -223,7 +238,8 @@ def Main():
                     connections[i].send(str(PairV1[0]))     ##
                     connections[i].send(ClrP3)              ##
                     connections[i].send(decrement)          ##
-                    if switcharooL == 1:                    ##
+                    if switcharooL == 1:
+                        var3 = True # Launch created thread##
                         connections[i].send(ClrP4)          ##
                     else:                                   ##
                         connections[i].send(ClrP3)          ##
@@ -275,11 +291,13 @@ def Main():
                 connections[i].send("loselife")
             if lives == 0:
                 for i in range(len(connections)): # Send "gameover" to all units
+                    var1 = True # Launch created thread
                     connections[i].send("gameover")
                     print("Sent " + str(i))
                 Gameover = True
                 
         elif flag == True: # If none of the handshakes were unsuccessful
+            var2 = True # Launch created thread
             for i in range(len(connections)): # Send "continue" to all units
                 connections[i].send("continue")
             

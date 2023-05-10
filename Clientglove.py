@@ -1,6 +1,6 @@
 import wireless
 from Alive import playerStatus, outOfRound
-from PhyComProtocol import ID, Handtype
+from PhyCom import ID, Handtype
 import time
 from LED import lights
 

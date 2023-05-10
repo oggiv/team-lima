@@ -1,5 +1,5 @@
 from machine import Pin, PWM
-from PhyComProtocol import Receive, Send, Peek
+from PhyCom import Receive, Send, Peek
 from LED import playerColour, lights
 import time
 import random

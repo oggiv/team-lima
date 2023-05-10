@@ -6,9 +6,9 @@ gc.collect()
 gc.enable()
 
 def ID(): #Unique identification of each glove
-    return 129
+    return 198
 def Handtype():
-    return "right"
+    return "left"
 
 freq = 0.001 #Given time between writes/reads, needs to be same on all units
 
