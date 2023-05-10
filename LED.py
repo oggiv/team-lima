@@ -45,11 +45,6 @@ def lights(colour):
          rgb(0, 255, 0)
          if(colour == "all"):
              time.sleep(1)
-             
-    if (colour == "turquoise" or colour == "all"):
-        rgb(5, 255, 50)
-        if(colour == "all"):
-            time.sleep(1)
          
     if (colour == "marine" or colour == "all"):
          rgb(0, 0, 255)
