@@ -16,6 +16,7 @@ Led_R.freq(2000)
 Led_G.freq(2000)
 Led_B.freq(2000)
 
+
 # Method used to toggle each colour
 def rgb(a, b, c):
     Led_R.duty_u16(a * 257)
@@ -56,22 +57,12 @@ def lights(colour):
              time.sleep(1)
          
     if (colour == "purple" or colour == "all"):
-         rgb(255, 0, 255)
-         if(colour == "all"):
-             time.sleep(1)
-         
-    if (colour == "cyan" or colour == "all"):
-         rgb(0, 80, 120)
+         rgb(255, 0, 230)
          if(colour == "all"):
              time.sleep(1)
     
     if (colour == "orange" or colour == "all"):
-        rgb(255, 18, 0)
-        if(colour == "all"):
-            time.sleep(1)
-            
-    if (colour == "pink" or colour == "all"):
-        rgb(255, 40, 60)
+        rgb(255, 15, 0)
         if(colour == "all"):
             time.sleep(1)
              
@@ -133,5 +124,3 @@ def lights(colour):
 def playerColour(ID): # Run the lightshow and then present the given playercolour
     lights("lightshow")
     lights(ID)
-    
-lights("lostlife")
