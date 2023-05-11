@@ -28,7 +28,7 @@ def Client(ssid):
         time_playerout = int(conn.receive(100000000000)) # Recieve round timer (in NS)
         SWcolour = conn.receive(100) # Receive eventual switcharoo colour
         if(partnerID == 0 and colour == "0" and SWcolour == "0"):
-            returner = outOfRound(time_playerout)
+            returner = outOfRound()
             if returner: # If correct hand was shook:
                 conn.send("True") # Send "True" to hub
             elif not returner: # If incorrect hand was shook:

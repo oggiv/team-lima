@@ -43,10 +43,8 @@ def playerStatus(ExpectedID, colour, time_playerout, SWcolour): # Method used to
     lights("red") # Time exceeded limit, Display red colour
     return False
 
-def outOfRound(time_playerout):
+def outOfRound():
+    lights("lightshow")
     playerColour("off") # Run lightshow and display given pair colour
-    time1 = time.time_ns()
-    while(time.time_ns() - time1 < time_playerout): # While round timer is not exceeded
-        pass
     return True
     

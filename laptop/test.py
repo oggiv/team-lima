@@ -2,7 +2,7 @@
 import socket
 import random
 
-Colours = ["green", "blue", "yellow", "purple", "cyan", "orange"] # List of available colours
+Colours = ["green", "blue", "yellow", "purple", "orange"] # List of available colours
 
     
 # Definition of Connection object
@@ -156,6 +156,11 @@ def Main():
                     connections[i].send(0)
 
         randomColour = randomize_list(Colours) # Randomize the list of colours
+        print(PairH1)
+        print(PairH2)
+        print(PairV1)
+        print(PairV2)
+        print(randomColour)
         ClrP1 = randomColour.pop(0) # Extract one colour
         ClrP2 = randomColour.pop(0) # Extract another colour
         ClrP3 = randomColour.pop(0) # Extract another colour
@@ -239,7 +244,6 @@ def Main():
                     connections[i].send(ClrP3)              ##
                     connections[i].send(decrement)          ##
                     if switcharooL == 1:
-                        var3 = True # Launch created thread##
                         connections[i].send(ClrP4)          ##
                     else:                                   ##
                         connections[i].send(ClrP3)          ##

@@ -124,3 +124,5 @@ def lights(colour):
 def playerColour(ID): # Run the lightshow and then present the given playercolour
     lights("lightshow")
     lights(ID)
+    
+lights("red")
