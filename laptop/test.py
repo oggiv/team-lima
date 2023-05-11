@@ -68,7 +68,7 @@ def Main():
     print(socket.gethostname())
     Socket = socket.socket()
     Socket.bind(('0.0.0.0', 42))
-    Socket.settimeout(15.0)
+    Socket.settimeout(30.0)
     Socket.listen(10)
     
     connections = []
@@ -97,9 +97,9 @@ def Main():
             LHands.append(ID[i]) # Append its ID to the list of left hands
 
     decrement = 20000000000 # Initializing round timer
-    lives = 3 # Initializing game lives
+    lives = 3 # Initializing game lives (should be 3)
     Gameover = False # Initializing game status flag
-    RSinceSwaroo = 0
+    RSinceSwaroo = 5 #should be 0
 
     while True: # While we are a hub
         PairsAmountR = 0

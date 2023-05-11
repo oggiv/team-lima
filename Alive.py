@@ -44,7 +44,6 @@ def playerStatus(ExpectedID, colour, time_playerout, SWcolour): # Method used to
     return False
 
 def outOfRound():
-    lights("lightshow")
     playerColour("off") # Run lightshow and display given pair colour
     return True
     
