@@ -68,7 +68,7 @@ def Main():
     print(socket.gethostname())
     Socket = socket.socket()
     Socket.bind(('0.0.0.0', 42))
-    Socket.settimeout(30.0)
+    Socket.settimeout(15.0)
     Socket.listen(10)
     
     connections = []
